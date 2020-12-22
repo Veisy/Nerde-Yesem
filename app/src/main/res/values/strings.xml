@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Nerde Yesem</string>
+    <string name="log_in">LOG IN</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="invalid_email">Please enter a valid email</string>
+    <string name="wrong_email">Wrong Email</string>
+    <string name="wrong_password">Wrong Password</string>
+    <string name="login_failed">Login Failed.</string>
+</resources>

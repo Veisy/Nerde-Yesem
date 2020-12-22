@@ -1,0 +1,69 @@
+package com.example.nerdeyesem.repository;
+
+import androidx.lifecycle.MutableLiveData;
+
+import com.example.nerdeyesem.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
+
+public class AuthAppRepository {
+    public static final String INVALID_EMAIL = "INVALID_EMAIL";
+    public static final String WRONG_EMAIL = "WRONG_EMAIL";
+    public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
+    public static final String LOGIN_FAILED = "LOGIN_FAILED";
+    public static final String LOGGED_OUT = "LOGGED_OUT";
+    public static final String USER_NOT_LOGGED_IN = "USER_NOT_LOGGED_IN";
+
+    private final FirebaseAuth firebaseAuth;
+    private final MutableLiveData<Resource<FirebaseUser>> userLiveData;
+
+    public AuthAppRepository() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        userLiveData = new MutableLiveData<>();
+    }
+
+    //Check if login successful. Get error message if not.
+    public void login(User user) {
+        firebaseAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
+                .addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                assert firebaseUser != null;
+                userLiveData.postValue(Resource.success(firebaseUser));
+            }
+        }).addOnFailureListener(e -> {
+            String errorMessage;
+            if (Objects.requireNonNull(e.getMessage()).contains("The email address is badly formatted.")) {
+                errorMessage = INVALID_EMAIL;
+
+            } else if(e.getMessage()
+                    .contains("There is no user record corresponding to this identifier. " +
+                            "The user may have been deleted.")) {
+                errorMessage = WRONG_EMAIL;
+            } else if (e.getMessage().contains("The password is invalid or " +
+                    "the user does not have a password")) {
+               errorMessage = WRONG_PASSWORD;
+            } else {
+                errorMessage = LOGIN_FAILED;
+            }
+            userLiveData.setValue(Resource.error(errorMessage,null));
+        });
+    }
+
+    public void logOut() {
+       FirebaseAuth.getInstance().signOut();
+       userLiveData.postValue(Resource.error(LOGGED_OUT,null));
+    }
+
+    public MutableLiveData<Resource<FirebaseUser>> getUserLiveData() {
+        if (firebaseAuth.getCurrentUser() != null) {
+            userLiveData.postValue(Resource.success(firebaseAuth.getCurrentUser()));
+        } else {
+            userLiveData.postValue(Resource.error( USER_NOT_LOGGED_IN,null));
+        }
+        return userLiveData;
+    }
+
+}

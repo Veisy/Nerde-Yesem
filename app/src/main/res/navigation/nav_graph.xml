@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/masterRestaurantFragment">
+
+    <fragment
+        android:id="@+id/masterRestaurantFragment"
+        android:name="com.example.nerdeyesem.fragment.RestaurantMasterFragment"
+        android:label="fragment_master_restaurant"
+        tools:layout="@layout/fragment_restaurant_master" >
+        <action
+            android:id="@+id/action_masterRestaurantFragment_to_detailRestaurantFragment"
+            app:destination="@id/detailRestaurantFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailRestaurantFragment"
+        android:name="com.example.nerdeyesem.fragment.RestaurantDetailFragment"
+        android:label="fragment_detail_restaurant"
+        tools:layout="@layout/fragment_restaurant_detail" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.nerdeyesem.fragment.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+    </fragment>
+</navigation>
