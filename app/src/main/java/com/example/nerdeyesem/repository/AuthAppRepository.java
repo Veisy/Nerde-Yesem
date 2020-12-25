@@ -3,12 +3,13 @@ package com.example.nerdeyesem.repository;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.nerdeyesem.model.User;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Objects;
-
 public class AuthAppRepository {
+    public static final String TOO_MANY_REQUEST = "TOO_MANY_REQUEST";
     public static final String INVALID_EMAIL = "INVALID_EMAIL";
     public static final String WRONG_EMAIL = "WRONG_EMAIL";
     public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
@@ -33,23 +34,31 @@ public class AuthAppRepository {
                 assert firebaseUser != null;
                 userLiveData.postValue(Resource.success(firebaseUser));
             }
-        }).addOnFailureListener(e -> {
-            String errorMessage;
-            if (Objects.requireNonNull(e.getMessage()).contains("The email address is badly formatted.")) {
-                errorMessage = INVALID_EMAIL;
+        }).addOnFailureListener(e ->
+                userLiveData.postValue(Resource.error(getMessageFromErrorCode(e),null)));
+    }
 
-            } else if(e.getMessage()
-                    .contains("There is no user record corresponding to this identifier. " +
-                            "The user may have been deleted.")) {
-                errorMessage = WRONG_EMAIL;
-            } else if (e.getMessage().contains("The password is invalid or " +
-                    "the user does not have a password")) {
-               errorMessage = WRONG_PASSWORD;
-            } else {
-                errorMessage = LOGIN_FAILED;
+    private String getMessageFromErrorCode(Exception e) {
+        if (e instanceof FirebaseTooManyRequestsException) {
+            return TOO_MANY_REQUEST;
+        } else if (e instanceof FirebaseAuthException) {
+            String errorCode = ((FirebaseAuthException) e).getErrorCode();
+            switch (errorCode) {
+                case "invalid-email":
+                case "ERROR_INVALID_EMAIL":
+                    return INVALID_EMAIL;
+                case "user-not-found":
+                case "ERROR_USER_NOT_FOUND":
+                    return WRONG_EMAIL;
+                case "wrong-password":
+                case "ERROR_WRONG_PASSWORD":
+                    return WRONG_PASSWORD;
+                default:
+                    return LOGIN_FAILED;
             }
-            userLiveData.setValue(Resource.error(errorMessage,null));
-        });
+        } else {
+            return LOGIN_FAILED;
+        }
     }
 
     public void logOut() {

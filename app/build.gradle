@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'  // Google Services plugin
+    id 'com.google.firebase.crashlytics' // Crashlytics
 }
 
 android {
@@ -43,6 +44,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation "androidx.activity:activity:1.2.0-rc01"
+
     def nav_version = "2.3.2"
     // Navigation dependencies
     implementation "androidx.navigation:navigation-fragment:$nav_version"
@@ -51,13 +54,18 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version" // Testing Navigation
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha04" // Jetpack Compose Integration
 
+    //Firebase dependencies
     implementation platform('com.google.firebase:firebase-bom:26.2.0') // Import the Firebase BoM
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-crashlytics' // Crashlytics
 
+    //Lifecycle dependencies
     def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version" // ViewModel
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"  // LiveData
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"// Lifecycles only (without ViewModel or LiveData)
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version" // Saved state module for ViewModel
+
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 }

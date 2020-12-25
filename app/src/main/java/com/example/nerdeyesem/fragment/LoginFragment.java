@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Animation for login field (fade in)
-        fadeInAnimation();
+        fadeInAnimation(binding.constraintLayoutAuthFields);
         initUserViewModel();
         initNavigationController(view);
 
@@ -54,6 +55,21 @@ public class LoginFragment extends Fragment {
         initLoginButton();
     }
 
+    private void fadeInAnimation(View view) {
+        int shortAnimationDuration = getResources().getInteger(
+                android.R.integer.config_mediumAnimTime);
+        // Set the login field to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        view.setAlpha(0f);
+        view.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        view.animate()
+                .alpha(1f)
+                .setDuration(shortAnimationDuration)
+                .setListener(null);
+    }
 
     private void initUserViewModel() {
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
@@ -75,15 +91,15 @@ public class LoginFragment extends Fragment {
                 //Check error message.
                 if (firebaseUserResource.status == Resource.Status.ERROR
                         && firebaseUserResource.message != null) {
-                   if (Objects.equals(firebaseUserResource.message, AuthAppRepository.INVALID_EMAIL)) {
-                       binding.editTextEmailAddress.setError(getString(R.string.invalid_email));
-                       binding.editTextEmailAddress.requestFocus();
+                   if (Objects.equals(firebaseUserResource.message, AuthAppRepository.TOO_MANY_REQUEST)) {
+                       Snackbar.make(requireView(),
+                               getString(R.string.too_many_request), Snackbar.LENGTH_SHORT).show();
+                   } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.INVALID_EMAIL)) {
+                       setErrorMessage(binding.editTextEmailAddress, getString(R.string.invalid_email));
                    } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.WRONG_EMAIL)) {
-                       binding.editTextEmailAddress.setError(getString(R.string.wrong_email));
-                       binding.editTextEmailAddress.requestFocus();
-                   } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.WRONG_PASSWORD)) {
-                       binding.editTextPassword.setError(getString(R.string.wrong_password));
-                       binding.editTextPassword.requestFocus();
+                       setErrorMessage(binding.editTextEmailAddress, getString(R.string.wrong_email));
+                   }else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.WRONG_PASSWORD)) {
+                       setErrorMessage(binding.editTextPassword, getString(R.string.wrong_password));
                    } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.LOGIN_FAILED)) {
                        Snackbar.make(requireView(),
                                getString(R.string.login_failed), Snackbar.LENGTH_SHORT).show();
@@ -91,6 +107,11 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void setErrorMessage(EditText editText, String errorMessage) {
+        editText.setError(errorMessage);
+        editText.requestFocus();
     }
 
     //Login logic and error handling.
@@ -123,20 +144,4 @@ public class LoginFragment extends Fragment {
         userViewModel.login(user);
     }
 
-    private void fadeInAnimation() {
-        View LoginFieldView = binding.constraintLayoutAuthFields;
-        int shortAnimationDuration = getResources().getInteger(
-                android.R.integer.config_mediumAnimTime);
-        // Set the login field to 0% opacity but visible, so that it is visible
-        // (but fully transparent) during the animation.
-        LoginFieldView.setAlpha(0f);
-        LoginFieldView.setVisibility(View.VISIBLE);
-
-        // Animate the content view to 100% opacity, and clear any animation
-        // listener set on the view.
-        LoginFieldView.animate()
-                .alpha(1f)
-                .setDuration(shortAnimationDuration)
-                .setListener(null);
-    }
 }

@@ -3,7 +3,7 @@ package com.example.nerdeyesem.repository;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-// Class for error handling in MVVM architecture.
+// Wrapper class for error handling in MVVM architecture.
 public class Resource<T> {
 
     @NonNull
