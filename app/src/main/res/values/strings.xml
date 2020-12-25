@@ -8,8 +8,9 @@
     <string name="wrong_password">Wrong Password</string>
     <string name="login_failed">Login Failed.</string>
     <string name="too_many_request">Too many requests. Try again later</string>
-    <string name="permission_inform_message">This application needs your location information. Give location permission so that the restaurants around you can be listed.</string>
-    <string name="permission_title">Location Permission</string>
+    <string name="location_permission_inform_message">This application needs your location information. Give location permission so that the restaurants around you can be listed.</string>
+    <string name="location_permission_title">Location Permission</string>
     <string name="okay">OKAY</string>
     <string name="dismiss">DISMISS</string>
+    <string name="location_permission_denied_message">The restaurants in your area cannot be listed because the location information has not been shared. Allow location permission for this application from permission settings.</string>
 </resources>

@@ -2,7 +2,7 @@ package com.example.nerdeyesem.repository;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.nerdeyesem.model.User;
+import com.example.nerdeyesem.model.UserModel;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -26,8 +26,8 @@ public class AuthAppRepository {
     }
 
     //Check if login successful. Get error message if not.
-    public void login(User user) {
-        firebaseAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
+    public void login(UserModel userModel) {
+        firebaseAuth.signInWithEmailAndPassword(userModel.getEmail(), userModel.getPassword())
                 .addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();

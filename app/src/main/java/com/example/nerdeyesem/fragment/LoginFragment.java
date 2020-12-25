@@ -16,7 +16,7 @@ import androidx.navigation.Navigation;
 
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentLoginBinding;
-import com.example.nerdeyesem.model.User;
+import com.example.nerdeyesem.model.UserModel;
 import com.example.nerdeyesem.repository.AuthAppRepository;
 import com.example.nerdeyesem.repository.Resource;
 import com.example.nerdeyesem.viewmodel.UserViewModel;
@@ -127,8 +127,8 @@ public class LoginFragment extends Fragment {
                     && !TextUtils.isEmpty(password)) {
                 email = binding.editTextEmailAddress.getText().toString();
                 password = binding.editTextPassword.getText().toString();
-                User user  = new User(email, password);
-                login(user);
+                UserModel userModel  = new UserModel(email, password);
+                login(userModel);
             } else {
                 if (TextUtils.isEmpty(email))
                     binding.editTextEmailAddress.setError("Enter an email");
@@ -139,9 +139,9 @@ public class LoginFragment extends Fragment {
     }
 
     //Update LiveData<FirebaseUser> observable object.
-    private void login(User user) {
+    private void login(UserModel userModel) {
         binding.progressBarLogin.setVisibility(View.VISIBLE);
-        userViewModel.login(user);
+        userViewModel.login(userModel);
     }
 
 }

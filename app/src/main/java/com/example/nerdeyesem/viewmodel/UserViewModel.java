@@ -3,7 +3,7 @@ package com.example.nerdeyesem.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.nerdeyesem.model.User;
+import com.example.nerdeyesem.model.UserModel;
 import com.example.nerdeyesem.repository.AuthAppRepository;
 import com.example.nerdeyesem.repository.Resource;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,8 +22,8 @@ public class UserViewModel extends ViewModel {
     }
 
     //Update userMutableLiveData and return success value.
-    public void login(User user) {
-        authAppRepository.login(user);
+    public void login(UserModel userModel) {
+        authAppRepository.login(userModel);
     }
 
     //Sign out current user.
