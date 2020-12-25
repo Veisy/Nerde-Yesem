@@ -1,10 +1,10 @@
 package com.example.nerdeyesem.model;
 
-public class User {
+public class UserModel {
     private final String email;
     private final String password;
 
-    public User(String email, String password) {
+    public UserModel(String email, String password) {
         this.email = email;
         this.password = password;
     }
