@@ -22,6 +22,7 @@ import androidx.navigation.Navigation;
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentRestaurantMasterBinding;
 import com.example.nerdeyesem.repository.Resource;
+import com.example.nerdeyesem.utils.GpsUtils;
 import com.example.nerdeyesem.viewmodel.LocationViewModel;
 import com.example.nerdeyesem.viewmodel.UserViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -34,7 +35,6 @@ public class RestaurantMasterFragment extends Fragment {
     private NavController navController;
 
     private LocationViewModel locationViewModel;
-
     // Reference to the return value of registerForActivityResult(),
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
@@ -63,7 +63,6 @@ public class RestaurantMasterFragment extends Fragment {
 
         //Register callback that get the permission request.
         initRegisterPermissionCallback();
-
     }
 
     private void initUserViewModel() {
@@ -121,6 +120,8 @@ public class RestaurantMasterFragment extends Fragment {
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             //After obtaining the location permit, we can get the location information.
+            //Check if GPS is enabled, and prompt the user to change location settings if needed.
+            GpsUtils.checkIfGPSEnabled(requireActivity());
             startLocationUpdate();
         } else {
             requestPermission();
@@ -134,6 +135,16 @@ public class RestaurantMasterFragment extends Fragment {
                         binding.textViewLocation
                                 .setText(locationModel.getLatitude()
                                         + "\n" + locationModel.getLongitude());
+                    }
+                });
+        locationViewModel.getIsGPSEnable().observe(getViewLifecycleOwner(),
+                aBoolean -> {
+                    if (!aBoolean) {
+                        binding.textViewLocation
+                                .setText(R.string.location_gps_disabled_message);
+                    } else {
+                        binding.textViewLocation
+                                .setText(R.string.location_gps_enabled);
                     }
                 });
     }

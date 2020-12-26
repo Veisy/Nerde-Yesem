@@ -15,16 +15,15 @@ import com.google.android.gms.location.LocationServices;
 
 public class LocationLiveData extends LiveData<LocationModel> {
     private static final int DEFAULT_UPDATE_INTERVAL = 60;
-    private static final int FAST_UPDATE_INTERVAL = 10;
+    private static final int FAST_UPDATE_INTERVAL = 30;
 
     //Location request is a config file for all settings related to FusedLocationProviderClient.
     public static LocationRequest locationRequest = LocationRequest.create();
 
     static {
         locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
-        locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
-        locationRequest.setFastestInterval(100 * FAST_UPDATE_INTERVAL);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setFastestInterval(1000 * FAST_UPDATE_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     private final FusedLocationProviderClient fusedLocationClient;
@@ -32,7 +31,6 @@ public class LocationLiveData extends LiveData<LocationModel> {
 
     public LocationLiveData(Context context) {
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
