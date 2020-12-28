@@ -14,16 +14,19 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 public class LocationLiveData extends LiveData<LocationModel> {
-    private static final int DEFAULT_UPDATE_INTERVAL = 60;
-    private static final int FAST_UPDATE_INTERVAL = 30;
 
     //Location request is a config file for all settings related to FusedLocationProviderClient.
     public static LocationRequest locationRequest = LocationRequest.create();
 
+    // Don't be afraid of the frequency values of update intervals below,
+    // we will remove location updates with removeLocationUpdates after we get one valid location.
+    // Even though we setNumUpdates(1), Android docs says don't trust this method
+    // because numbers of things can go wrong, and remove updates anyway.
     static {
-        locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
-        locationRequest.setFastestInterval(1000 * FAST_UPDATE_INTERVAL);
+        locationRequest.setInterval(1000);
+        locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setNumUpdates(1);
     }
 
     private final FusedLocationProviderClient fusedLocationClient;
@@ -46,6 +49,8 @@ public class LocationLiveData extends LiveData<LocationModel> {
 
     private void setLocationData(Location location) {
         if (location != null) {
+            //We got a valid location, remove updates.
+            fusedLocationClient.removeLocationUpdates(locationCallback);
             postValue(new LocationModel(location.getLongitude(), location.getLatitude()));
         }
     }
