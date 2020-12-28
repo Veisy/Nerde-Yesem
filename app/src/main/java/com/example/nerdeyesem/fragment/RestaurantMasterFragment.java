@@ -21,7 +21,7 @@ import androidx.navigation.Navigation;
 
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentRestaurantMasterBinding;
-import com.example.nerdeyesem.repository.Resource;
+import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.utils.GpsUtils;
 import com.example.nerdeyesem.viewmodel.LocationViewModel;
 import com.example.nerdeyesem.viewmodel.UserViewModel;

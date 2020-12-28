@@ -18,7 +18,7 @@ import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentLoginBinding;
 import com.example.nerdeyesem.model.UserModel;
 import com.example.nerdeyesem.repository.AuthAppRepository;
-import com.example.nerdeyesem.repository.Resource;
+import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.viewmodel.UserViewModel;
 import com.google.android.material.snackbar.Snackbar;
 

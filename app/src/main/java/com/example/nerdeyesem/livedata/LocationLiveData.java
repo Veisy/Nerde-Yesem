@@ -25,7 +25,7 @@ public class LocationLiveData extends LiveData<LocationModel> {
     static {
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         locationRequest.setNumUpdates(1);
     }
 

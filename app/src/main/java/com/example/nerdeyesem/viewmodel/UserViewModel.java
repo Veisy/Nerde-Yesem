@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.nerdeyesem.model.UserModel;
 import com.example.nerdeyesem.repository.AuthAppRepository;
-import com.example.nerdeyesem.repository.Resource;
+import com.example.nerdeyesem.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
 
 public class UserViewModel extends ViewModel {

@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.repository;
+package com.example.nerdeyesem.utils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
