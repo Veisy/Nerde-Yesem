@@ -1,9 +1,6 @@
 package com.example.nerdeyesem.network;
 
 import com.example.nerdeyesem.model.NearbyRestaurantsModel;
-import com.example.nerdeyesem.model.RestaurantModel;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

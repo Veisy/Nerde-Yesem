@@ -21,8 +21,7 @@ import androidx.navigation.Navigation;
 
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentRestaurantMasterBinding;
-import com.example.nerdeyesem.model.RestaurantModel;
-import com.example.nerdeyesem.model.SingleRestaurantModel;
+import com.example.nerdeyesem.model.NearbyRestaurantsModel;
 import com.example.nerdeyesem.utils.GpsUtils;
 import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.viewmodel.LocationViewModel;
@@ -196,8 +195,8 @@ public class RestaurantMasterFragment extends Fragment {
                 listResource -> {
                     if (listResource.status == Resource.Status.SUCCESS) {
                         assert listResource.data != null;
-                        for (SingleRestaurantModel singleRestaurantModel : listResource.data
-                                .getSingleRestaurantModelList()) {
+                        for (NearbyRestaurantsModel.SingleRestaurantModel singleRestaurantModel :
+                                listResource.data.getSingleRestaurantModelList()) {
                             String content = "";
                             content += "Name: " + singleRestaurantModel.getRestaurantModel().getName() + "\n";
                             content += "Address: " + singleRestaurantModel.getRestaurantModel().getRestaurantAddress()
