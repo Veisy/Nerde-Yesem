@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
-public class AuthAppRepository {
+public class FirebaseEmailAuthRepository {
     public static final String TOO_MANY_REQUEST = "TOO_MANY_REQUEST";
     public static final String INVALID_EMAIL = "INVALID_EMAIL";
     public static final String WRONG_EMAIL = "WRONG_EMAIL";
@@ -21,7 +21,7 @@ public class AuthAppRepository {
     private final FirebaseAuth firebaseAuth;
     private final MutableLiveData<Resource<FirebaseUser>> userLiveData;
 
-    public AuthAppRepository() {
+    public FirebaseEmailAuthRepository() {
         firebaseAuth = FirebaseAuth.getInstance();
         userLiveData = new MutableLiveData<>();
     }

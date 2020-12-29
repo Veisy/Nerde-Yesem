@@ -17,7 +17,7 @@ import androidx.navigation.Navigation;
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentLoginBinding;
 import com.example.nerdeyesem.model.UserModel;
-import com.example.nerdeyesem.repository.AuthAppRepository;
+import com.example.nerdeyesem.repository.FirebaseEmailAuthRepository;
 import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.viewmodel.UserViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -91,16 +91,16 @@ public class LoginFragment extends Fragment {
                 //Check error message.
                 if (firebaseUserResource.status == Resource.Status.ERROR
                         && firebaseUserResource.message != null) {
-                   if (Objects.equals(firebaseUserResource.message, AuthAppRepository.TOO_MANY_REQUEST)) {
+                   if (Objects.equals(firebaseUserResource.message, FirebaseEmailAuthRepository.TOO_MANY_REQUEST)) {
                        Snackbar.make(requireView(),
                                getString(R.string.too_many_request), Snackbar.LENGTH_SHORT).show();
-                   } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.INVALID_EMAIL)) {
+                   } else if (Objects.equals(firebaseUserResource.message, FirebaseEmailAuthRepository.INVALID_EMAIL)) {
                        setErrorMessage(binding.editTextEmailAddress, getString(R.string.invalid_email));
-                   } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.WRONG_EMAIL)) {
+                   } else if (Objects.equals(firebaseUserResource.message, FirebaseEmailAuthRepository.WRONG_EMAIL)) {
                        setErrorMessage(binding.editTextEmailAddress, getString(R.string.wrong_email));
-                   }else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.WRONG_PASSWORD)) {
+                   }else if (Objects.equals(firebaseUserResource.message, FirebaseEmailAuthRepository.WRONG_PASSWORD)) {
                        setErrorMessage(binding.editTextPassword, getString(R.string.wrong_password));
-                   } else if (Objects.equals(firebaseUserResource.message, AuthAppRepository.LOGIN_FAILED)) {
+                   } else if (Objects.equals(firebaseUserResource.message, FirebaseEmailAuthRepository.LOGIN_FAILED)) {
                        Snackbar.make(requireView(),
                                getString(R.string.login_failed), Snackbar.LENGTH_SHORT).show();
                    }

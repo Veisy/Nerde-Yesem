@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 // Wrapper class for error handling in MVVM architecture.
+//We used this wrapper class for both Firebase Auth and Zomato Api call.
 public class Resource<T> {
 
     @NonNull

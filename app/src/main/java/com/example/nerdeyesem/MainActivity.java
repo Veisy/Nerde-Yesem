@@ -24,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
     }
 
-    //We had to override this method in single activity, because when we prompted the user to GPS setting to enable it,
+    // We had to override this method in single activity, because when we prompted the user to GPS setting to enable it,
     // we had to use startResolutionForResult() method and this method return callback value via onActivityResult.
-    //And we cant get result from onActivityResult inside fragment, it does not work in Single Activity structure.
-    //Therefore we needed to take result value from here and observe it with LiveData object inside LocationViewModel.
+    // And we cant get result from onActivityResult inside fragment, it does not work in Single Activity structure.
+    // Therefore we needed to take result value from here and observe it with LiveData object inside LocationViewModel.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
