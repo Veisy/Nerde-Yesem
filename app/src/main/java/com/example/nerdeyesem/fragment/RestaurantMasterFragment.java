@@ -21,9 +21,12 @@ import androidx.navigation.Navigation;
 
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.FragmentRestaurantMasterBinding;
-import com.example.nerdeyesem.utils.Resource;
+import com.example.nerdeyesem.model.RestaurantModel;
+import com.example.nerdeyesem.model.SingleRestaurantModel;
 import com.example.nerdeyesem.utils.GpsUtils;
+import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.viewmodel.LocationViewModel;
+import com.example.nerdeyesem.viewmodel.RestaurantViewModel;
 import com.example.nerdeyesem.viewmodel.UserViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -37,6 +40,8 @@ public class RestaurantMasterFragment extends Fragment {
     private LocationViewModel locationViewModel;
     // Reference to the return value of registerForActivityResult(),
     private ActivityResultLauncher<String> requestPermissionLauncher;
+
+    private RestaurantViewModel restaurantViewModel;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -58,11 +63,13 @@ public class RestaurantMasterFragment extends Fragment {
         initUserLiveDataObserver();
 
         initSignOutButton();
-
         initLocationViewModel();
 
         //Register callback that get the permission request.
         initRegisterPermissionCallback();
+
+        initRestaurantViewModel();
+
     }
 
     private void initUserViewModel() {
@@ -122,19 +129,24 @@ public class RestaurantMasterFragment extends Fragment {
             //After obtaining the location permit, we can get the location information.
             //Check if GPS is enabled, and prompt the user to change location settings if needed.
             GpsUtils.checkIfGPSEnabled(requireActivity());
-            startLocationUpdate();
+            observeLocationUpdate();
         } else {
             requestPermission();
         }
     }
 
-    private void startLocationUpdate() {
+    private void observeLocationUpdate() {
         locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(),
                 locationModel -> {
                     if (locationModel != null) {
+                        String coordinates = locationModel.getLatitude() + ", "
+                                + locationModel.getLongitude();
                         binding.textViewLocation
-                                .setText(locationModel.getLatitude()
-                                        + "\n" + locationModel.getLongitude());
+                                .setText(coordinates);
+
+                        //Get restaurants.
+                        observeRestaurantUpdate(locationModel.getLatitude(),
+                                locationModel.getLongitude());
                     }
                 });
         locationViewModel.getIsGPSEnable().observe(getViewLifecycleOwner(),
@@ -173,5 +185,30 @@ public class RestaurantMasterFragment extends Fragment {
         builder.show();
     }
 
+    private void initRestaurantViewModel() {
+        restaurantViewModel = new ViewModelProvider(requireActivity())
+                .get(RestaurantViewModel.class);
+    }
+
+    private void observeRestaurantUpdate (Double latitude,
+                                          Double longitude) {
+        restaurantViewModel.getRestaurants(latitude, longitude).observe(getViewLifecycleOwner(),
+                listResource -> {
+                    if (listResource.status == Resource.Status.SUCCESS) {
+                        assert listResource.data != null;
+                        for (SingleRestaurantModel singleRestaurantModel : listResource.data
+                                .getSingleRestaurantModelList()) {
+                            String content = "";
+                            content += "Name: " + singleRestaurantModel.getRestaurantModel().getName() + "\n";
+                            content += "Address: " + singleRestaurantModel.getRestaurantModel().getRestaurantAddress()
+                                    .getAddress()  + "\n\n";
+
+                            binding.textViewRestaurants.append(content);
+                        }
+                    } else {
+                        binding.textViewRestaurants.setText(listResource.message);
+                    }
+                });
+    }
 }
 

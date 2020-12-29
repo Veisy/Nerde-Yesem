@@ -13,8 +13,7 @@
         android:id="@+id/textView_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         android:text="Welcome To Master Restaurant Fragment"
         android:textColor="@color/colorGreyDark"
         android:visibility="visible"
@@ -28,24 +27,45 @@
         android:id="@+id/textView_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         android:gravity="center"
         android:textStyle="italic"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/button_signOut"
+        app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_welcome" />
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_signOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_location">
+
+        <TextView
+            android:id="@+id/textView_restaurants"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+    </androidx.core.widget.NestedScrollView>
+
     <Button
         android:id="@+id/button_signOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
         android:text="SIGN OUT"
         android:textColor="@color/colorGreyVeryLight"
         android:visibility="visible"
@@ -53,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_location" />
+        app:layout_constraintTop_toBottomOf="@id/nestedScrollView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
