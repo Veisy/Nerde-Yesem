@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="restaurant_image_width">96dp</dimen>
+    <dimen name="restaurant_image_height">96dp</dimen>
+    <dimen name="restaurant_name_text_size">18sp</dimen>
+    <dimen name="restaurant_address_text_size">12sp</dimen>
+    <dimen name="restaurant_rating_text_size">12sp</dimen>
+    <dimen name="restaurant_votes_text_size">10sp</dimen>
+</resources>

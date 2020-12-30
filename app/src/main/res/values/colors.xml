@@ -5,9 +5,12 @@
     <color name="colorSecondary">#FFAB40</color>
     <color name="colorAccent">#C51162</color>
     <color name="colorGreyDark">#323232</color>
+    <color name="colorGreyLight">#969696</color>
     <color name="colorGreyVeryLight">#F0F0F0</color>
     <color name="colorTeal_200">#FF03DAC5</color>
     <color name="colorTeal_700">#FF018786</color>
     <color name="colorBlack">#FF000000</color>
     <color name="colorWhite">#FFFFFFFF</color>
+    <color name="colorOrangeDark">#D57201</color>
+    <color name="colorBlue_700">#1976D2</color>
 </resources>

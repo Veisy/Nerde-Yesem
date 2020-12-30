@@ -7,6 +7,7 @@ public class ZomatoApiClient {
 
     private static Retrofit retrofit;
 
+    //Singleton pattern to access Api service
     public static Retrofit getRetrofit() {
         if(retrofit == null) {
             retrofit = new Retrofit.Builder()
