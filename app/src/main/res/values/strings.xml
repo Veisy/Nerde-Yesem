@@ -15,4 +15,14 @@
     <string name="location_permission_denied_message">The restaurants in your area cannot be listed because the location information has not been shared. Allow location permission for this application from permission settings.</string>
     <string name="location_gps_disabled_message">The restaurants in your area cannot be listed because the location feature is disabled in your device. Activate the location in your device settings</string>
     <string name="location_gps_enabled">GPS Enabled</string>
+    <string name="restaurant_image">Restaurant Image</string>
+    <string name="restaurant_name">Restaurant Name</string>
+    <string name="restaurant_address">Restaurant Address</string>
+    <string name="restaurant_telephone">Restaurant Telephone</string>
+    <string name="restaurant_cuisines">Restaurant Cuisines</string>
+    <string name="restaurant_highlights">Restaurant Highlights</string>
+    <string name="rating">Rating</string>
+    <string name="votes">Votes</string>
+    <string name="restaurant_timings">Restaurant Timings</string>
+
 </resources>

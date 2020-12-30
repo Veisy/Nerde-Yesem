@@ -3,7 +3,7 @@ package com.example.nerdeyesem.repository;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.nerdeyesem.model.NearbyRestaurantsModel;
+import com.example.nerdeyesem.model.RestaurantsModel;
 import com.example.nerdeyesem.network.ZomatoApiClient;
 import com.example.nerdeyesem.network.ZomatoApiService;
 import com.example.nerdeyesem.utils.Resource;
@@ -24,20 +24,19 @@ public class ZomatoRestaurantsRepository {
     private static final String SORT_BY_REAL_DISTANCE = "real_distance";
 
     private final ZomatoApiService zomatoApiService;
+    private final MutableLiveData<Resource<RestaurantsModel>> resourceMutableLiveData;
 
     public ZomatoRestaurantsRepository() {
         zomatoApiService = ZomatoApiClient.getRetrofit().create(ZomatoApiService.class);
+        resourceMutableLiveData = new MutableLiveData<>();
     }
 
-    public LiveData<Resource<NearbyRestaurantsModel>> getRestaurants(Double latitude,
-                                                                     Double longitude) {
-        MutableLiveData<Resource<NearbyRestaurantsModel>> resourceMutableLiveData =
-                new MutableLiveData<>();
+    public void findRestaurants(Double latitude, Double longitude) {
         zomatoApiService.getRestaurants(API_KEY, COUNT, latitude, longitude, SORT_BY_REAL_DISTANCE)
-                .enqueue(new Callback<NearbyRestaurantsModel>() {
+                .enqueue(new Callback<RestaurantsModel>() {
                     @Override
-                    public void onResponse(@NotNull Call<NearbyRestaurantsModel> call,
-                                           @NotNull Response<NearbyRestaurantsModel> response) {
+                    public void onResponse(@NotNull Call<RestaurantsModel> call,
+                                           @NotNull Response<RestaurantsModel> response) {
                         if (!response.isSuccessful()) {
                             resourceMutableLiveData.postValue(Resource
                                     .error(String.valueOf(response.code()), null));
@@ -51,11 +50,14 @@ public class ZomatoRestaurantsRepository {
                     }
 
                     @Override
-                    public void onFailure(@NotNull Call<NearbyRestaurantsModel> call,
+                    public void onFailure(@NotNull Call<RestaurantsModel> call,
                                           @NotNull Throwable t) {
                         resourceMutableLiveData.postValue(Resource.error(t.getMessage(), null));
                     }
                 });
+    }
+
+    public LiveData<Resource<RestaurantsModel>> getRestaurants() {
         return resourceMutableLiveData;
     }
 

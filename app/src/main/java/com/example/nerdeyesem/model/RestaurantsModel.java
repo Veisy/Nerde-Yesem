@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 //Model class of requested data from Zomato API.
-//There are inner classes. Because the available JSONs of the Zomato API are not flat.
-public class NearbyRestaurantsModel {
+//There are inner classes. Because available JSONs of the Zomato API are not flat.
+public class RestaurantsModel {
     @SerializedName("restaurants")
     private List<SingleRestaurantModel> singleRestaurantModelList;
 
@@ -30,6 +30,12 @@ public class NearbyRestaurantsModel {
         private String name;
         @SerializedName("featured_image")
         private String featuredImage;
+        @SerializedName("cuisines")
+        private String cuisines;
+        @SerializedName("timings")
+        private String timings;
+        @SerializedName("highlights")
+        private List<String> highlights;
         @SerializedName("location")
         private RestaurantAddressModel restaurantAddress;
         @SerializedName("user_rating")
@@ -47,6 +53,18 @@ public class NearbyRestaurantsModel {
             return featuredImage;
         }
 
+        public String getTimings() {
+            return timings;
+        }
+
+        public List<String> getHighlights() {
+            return highlights;
+        }
+
+        public String getCuisines() {
+            return cuisines;
+        }
+
         public RestaurantAddressModel getRestaurantAddress() {
             return restaurantAddress;
         }
@@ -59,28 +77,33 @@ public class NearbyRestaurantsModel {
     public class RestaurantAddressModel {
         @SerializedName("address")
         private String address;
+        @SerializedName("locality_verbose")
+        private String localityVerbose;
 
         public String getAddress() {
             return address;
         }
+
+        public String getLocalityVerbose() {
+            return localityVerbose;
+        }
     }
 
     public class RestaurantRatingModel {
-        /*
+
         @SerializedName("aggregate_rating")
-        private Integer aggregateRating;
-        */
+        private Double aggregateRating;
         @SerializedName("rating_text")
         private String ratingText;
         @SerializedName("rating_color")
         private String ratingColor;
         @SerializedName("votes")
-        private int votes;
-        /*
-        public Integer getAggregateRating() {
+        private Integer votes;
+
+        public Double getAggregateRating() {
         return aggregateRating;
         }
-        */
+
         public String getRatingText() {
             return ratingText;
         }
@@ -89,7 +112,7 @@ public class NearbyRestaurantsModel {
             return ratingColor;
         }
 
-        public int getVotes() {
+        public Integer getVotes() {
             return votes;
         }
     }
