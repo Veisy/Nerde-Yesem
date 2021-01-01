@@ -2,8 +2,19 @@
 <resources>
     <dimen name="restaurant_image_width">96dp</dimen>
     <dimen name="restaurant_image_height">96dp</dimen>
+    <dimen name="restaurant_image_height_large">160dp</dimen>
     <dimen name="restaurant_name_text_size">18sp</dimen>
+    <dimen name="restaurant_name_text_size_large">24sp</dimen>
+    <dimen name="restaurant_address_cuisines_size">14sp</dimen>
+    <dimen name="restaurant_address_cuisines_size_large">16sp</dimen>
+    <dimen name="restaurant_address_highlights_size">12sp</dimen>
+    <dimen name="restaurant_address_highlights_size_large">14sp</dimen>
     <dimen name="restaurant_address_text_size">12sp</dimen>
+    <dimen name="restaurant_address_text_size_large">14sp</dimen>
     <dimen name="restaurant_rating_text_size">12sp</dimen>
+    <dimen name="restaurant_rating_text_size_large">14sp</dimen>
     <dimen name="restaurant_votes_text_size">10sp</dimen>
+    <dimen name="restaurant_votes_text_size_large">12sp</dimen>
+    <dimen name="restaurant_timings_text_size">14sp</dimen>
+    <dimen name="color_bar_height">8dp</dimen>
 </resources>

@@ -1,7 +1,8 @@
 package com.example.nerdeyesem.repository;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 
+import com.example.nerdeyesem.livedata.SingleLiveEvent;
 import com.example.nerdeyesem.model.UserModel;
 import com.example.nerdeyesem.utils.Resource;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -19,11 +20,15 @@ public class FirebaseEmailAuthRepository {
     public static final String USER_NOT_LOGGED_IN = "USER_NOT_LOGGED_IN";
 
     private final FirebaseAuth firebaseAuth;
-    private final MutableLiveData<Resource<FirebaseUser>> userLiveData;
+
+    //Extended LiveData class as SingleLiveEvent (in the livedata package) that will only send an update once.
+    //We needed it because in some scenarios livedata was updated more than once without updating location.
+    //More details and explanations available on class declaration.
+    private final SingleLiveEvent<Resource<FirebaseUser>> userLiveData;
 
     public FirebaseEmailAuthRepository() {
         firebaseAuth = FirebaseAuth.getInstance();
-        userLiveData = new MutableLiveData<>();
+        userLiveData = new SingleLiveEvent<>();
     }
 
     //Check if login successful. Get error message if not.
@@ -67,7 +72,7 @@ public class FirebaseEmailAuthRepository {
        userLiveData.postValue(Resource.error(LOGGED_OUT,null));
     }
 
-    public MutableLiveData<Resource<FirebaseUser>> getUserLiveData() {
+    public LiveData<Resource<FirebaseUser>> getUserLiveData() {
         if (firebaseAuth.getCurrentUser() != null) {
             userLiveData.postValue(Resource.success(firebaseAuth.getCurrentUser()));
         } else {

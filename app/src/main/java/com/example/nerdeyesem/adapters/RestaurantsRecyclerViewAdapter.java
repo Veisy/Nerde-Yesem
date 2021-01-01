@@ -32,7 +32,7 @@ import static android.content.ContentValues.TAG;
 public class RestaurantsRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantsRecyclerViewAdapter.RestaurantsViewHolder> {
 
     private final Context mContext;
-    private RestaurantsModel restaurantsModel;
+    private final RestaurantsModel restaurantsModel;
     private final OnRestaurantClickListener mOnRestaurantClickListener;
 
     public RestaurantsRecyclerViewAdapter(Context mContext, RestaurantsModel restaurantsModel,
@@ -79,6 +79,7 @@ public class RestaurantsRecyclerViewAdapter extends RecyclerView.Adapter<Restaur
                 restaurantsModel.getSingleRestaurantModelList().get(position).getRestaurantModel();
 
         try {
+            //Fields, some of them formatted
             String restaurantRatingColor = "#" + restaurantModel.getRestaurantRating().getRatingColor();
             String restaurantVotesString = "(" + restaurantModel.getRestaurantRating().getVotes() +" votes)";
             String restaurantHighlights = restaurantModel.getHighlights().toString()
@@ -95,41 +96,37 @@ public class RestaurantsRecyclerViewAdapter extends RecyclerView.Adapter<Restaur
                     .setText(restaurantModel.getRestaurantRating().getRatingText());
             holder.binding.textViewRestaurantCuisines
                     .setText(restaurantModel.getCuisines());
-            holder.binding.textViewRestaurantTimings
-                    .setText(restaurantModel.getTimings());
             holder.binding.textViewRestaurantHighlights.setText(restaurantHighlights);
             holder.binding.textViewVotes.setText(restaurantVotesString);
 
             holder.binding.textViewRating
                     .setTextColor(Color.parseColor(restaurantRatingColor));
-            // If returned rating color is default grey color,
-            // we change it to our bluish color in restaurantName and colorRatingBar.
-            if (restaurantRatingColor.equals("#CBCBCB")) {
-                holder.binding.viewColorRatingBar
-                        .setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorBlue_700));
-                holder.binding.textViewRestaurantName
-                        .setTextColor(ContextCompat.getColor(mContext, R.color.colorBlue_700));
-            } else {
-                holder.binding.viewColorRatingBar
-                        .setBackgroundColor(Color.parseColor(restaurantRatingColor));
-                holder.binding.textViewRestaurantName
-                        .setTextColor(Color.parseColor(restaurantRatingColor));
-            }
+
+            boolean isFeaturedImageExist = (restaurantModel.getFeaturedImage() != null
+                    && !restaurantModel.getFeaturedImage().equals(""));
+            boolean isRatingColorDefault = (restaurantRatingColor.equals("#CBCBCB")
+                    || restaurantModel.getRestaurantRating().getRatingText().equals("0"));
 
             //Load featured image if exist
-            if (restaurantModel.getFeaturedImage() != null
-                    && !restaurantModel.getFeaturedImage().equals("")) {
+            if (isFeaturedImageExist)
                 Glide.with(mContext).load(restaurantModel.getFeaturedImage())
                         .into(holder.binding.imageViewRestaurantImage);
-            }
+
+            // If returned rating color is default grey color,
+            // we change it to our bluish color in restaurantName and colorRatingBar.
+            // Else take returned color.
+            int color = isRatingColorDefault
+                    ? ContextCompat.getColor(mContext, R.color.colorBlue_700)
+                    : Color.parseColor(restaurantRatingColor);
+
+            holder.binding.viewColorRatingBar.setBackgroundColor(color);
+            holder.binding.textViewRestaurantName.setTextColor(color);
+
         } catch (Exception e) {
             Toast.makeText(mContext, "Error occurred while extracting data from Zomato"
                     , Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onBindViewHolder: Error while settings views");
         }
-
-
-
     }
 
     @Override

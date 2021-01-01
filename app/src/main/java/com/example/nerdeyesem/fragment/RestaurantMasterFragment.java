@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,12 +47,22 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
 
     private RestaurantsViewModel restaurantsViewModel;
 
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setToolbar();
+
         binding = FragmentRestaurantMasterBinding
                 .inflate(inflater, container, false);
         return binding.getRoot();
+    }
+
+    private void setToolbar() {
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+        //Hide toolbar for now. We will make it visible when user auth validated.
+        toolbar.setVisibility(View.INVISIBLE);
+        toolbar.setTitle(getString(R.string.nearby_restaurants));
     }
 
     @Override
@@ -64,13 +76,13 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
         // If there is no user currently logged in, redirect to the login page
         initUserLiveDataObserver();
 
-        initSignOutButton();
+        initRestaurantViewModel();
+        initRestaurantsLiveDataObserver();
+
         initLocationViewModel();
 
         //Register callback that get the permission request.
         initRegisterPermissionCallback();
-
-        initRestaurantViewModel();
     }
 
     private void initUserViewModel() {
@@ -81,17 +93,14 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
         navController = Navigation.findNavController(view);
     }
 
-    private void initSignOutButton() {
-        binding.buttonSignOut.setOnClickListener(v -> userViewModel.logOut());
-    }
-
     private void initUserLiveDataObserver() {
         userViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUserResource -> {
             if (firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) {
-                binding.textViewWelcome.setText(firebaseUserResource.data.getEmail());
                 //Make layout visible.
+                requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
                 binding.constraintLayoutFragmentRestaurantMaster.setVisibility(View.VISIBLE);
+                binding.progressBarRecyclerViewStatus.setVisibility(View.VISIBLE);
 
                 //Check location permission, and get location if permission granted.
                 getLocation();
@@ -99,6 +108,41 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
                 navController.navigate(R.id.loginFragment);
             }
         });
+    }
+
+    private void initRestaurantViewModel() {
+        restaurantsViewModel = new ViewModelProvider(requireActivity())
+                .get(RestaurantsViewModel.class);
+    }
+
+    private void initRestaurantsLiveDataObserver() {
+        restaurantsViewModel.getRestaurants().observe(getViewLifecycleOwner(),
+                listResource -> {
+                    if (listResource.status == Resource.Status.SUCCESS) {
+
+                        setRestaurantRecyclerView(listResource.data);
+
+                    } else {
+                        binding.textViewStatusInformation.setText(listResource.message);
+                        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void setRestaurantRecyclerView(RestaurantsModel restaurantsModel) {
+        //binding.recyclerViewRestaurants.setHasFixedSize(true);
+        RestaurantsRecyclerViewAdapter restaurantsRecyclerViewAdapter =
+                new RestaurantsRecyclerViewAdapter(requireContext(),
+                        restaurantsModel, this);
+        binding.recyclerViewRestaurants
+                .setAdapter(restaurantsRecyclerViewAdapter);
+        binding.recyclerViewRestaurants
+                .setLayoutManager(new LinearLayoutManager(requireContext()));
+        LayoutAnimationController layoutAnimationController = AnimationUtils
+                .loadLayoutAnimation(requireContext(), R.anim.recyclerview_layout_animation);
+        binding.recyclerViewRestaurants.setLayoutAnimation(layoutAnimationController);
+
+        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
     }
 
     private void initLocationViewModel() {
@@ -116,8 +160,9 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
                         //and check permission every time.
                         getLocation();
                     } else {
-                        binding.textViewLocation
+                        binding.textViewStatusInformation
                                 .setText(R.string.location_permission_denied_message);
+                        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
                     }
                 });
     }
@@ -145,13 +190,10 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
             locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(),
                     locationModel -> {
                         if (locationModel != null) {
-                            String coordinates = locationModel.getLatitude() + ", "
-                                    + locationModel.getLongitude();
-                            binding.textViewLocation
-                                    .setText(coordinates);
+                            binding.textViewStatusInformation.setVisibility(View.GONE);
 
                             //Get restaurants.
-                            observeRestaurantUpdate(locationModel.getLatitude(),
+                            restaurantsUpdate(locationModel.getLatitude(),
                                     locationModel.getLongitude());
                         }
                     });
@@ -161,10 +203,11 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
             locationViewModel.getIsGPSEnable().observe(getViewLifecycleOwner(),
                     aBoolean -> {
                         if (!aBoolean) {
-                            binding.textViewLocation
+                            binding.textViewStatusInformation
                                     .setText(R.string.location_gps_disabled_message);
+                            binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
                         } else {
-                            binding.textViewLocation
+                            binding.textViewStatusInformation
                                     .setText(R.string.location_gps_enabled);
                         }
                     });
@@ -189,49 +232,17 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
                 requestPermissionLauncher.launch(
                 Manifest.permission.ACCESS_FINE_LOCATION));
 
-        builder.setNegativeButton(R.string.dismiss, (dialog, which) ->
-                binding.textViewLocation
-                .setText(R.string.location_permission_denied_message));
+        builder.setNegativeButton(R.string.dismiss, (dialog, which) -> {
+            binding.textViewStatusInformation
+                    .setText(R.string.location_permission_denied_message);
+            binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
+        });
         builder.show();
     }
 
-    private void initRestaurantViewModel() {
-        restaurantsViewModel = new ViewModelProvider(requireActivity())
-                .get(RestaurantsViewModel.class);
-    }
-
-    private void observeRestaurantUpdate (Double latitude,
+    private void restaurantsUpdate (Double latitude,
                                           Double longitude) {
-
         restaurantsViewModel.findRestaurants(latitude, longitude);
-
-        //If there is active observer, it means we have been here before and created observer object,
-        //we do not memory leak by creating a new observer object and update the existing one.
-        if (!restaurantsViewModel.getRestaurants().hasActiveObservers()) {
-            restaurantsViewModel.getRestaurants().observe(getViewLifecycleOwner(),
-                    listResource -> {
-                        if (listResource.status == Resource.Status.SUCCESS) {
-
-                                setRestaurantRecyclerView(listResource.data);
-
-                        } else {
-                            binding.textViewError.setText(listResource.message);
-                            //TODO
-
-                        }
-                    });
-        }
-    }
-
-    private void setRestaurantRecyclerView(RestaurantsModel restaurantsModel) {
-        binding.recyclerViewRestaurants.setHasFixedSize(true);
-        RestaurantsRecyclerViewAdapter restaurantsRecyclerViewAdapter =
-                new RestaurantsRecyclerViewAdapter(requireContext(),
-                restaurantsModel, this);
-        binding.recyclerViewRestaurants
-                .setAdapter(restaurantsRecyclerViewAdapter);
-        binding.recyclerViewRestaurants
-                .setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
     // The accepted best way was followed when adding click listeners to the recyclerview elements.
@@ -239,7 +250,10 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     @Override
     public void onRestaurantClick(int position, View view) {
         //TODO
-        Toast.makeText(requireContext(), "Restaurant Cart Clicked", Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+
+        navController.navigate(R.id.action_masterRestaurantFragment_to_detailRestaurantFragment, bundle);
     }
 }
 

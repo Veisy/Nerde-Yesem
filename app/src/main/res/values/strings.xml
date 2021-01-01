@@ -1,6 +1,10 @@
+
 <resources>
     <string name="app_name">Nerde Yesem</string>
+    <string name="nearby_restaurants">Nearby Restaurants</string>
+    <string name="restaurant_details">Restaurant Details</string>
     <string name="log_in">LOG IN</string>
+    <string name="sign_out">Sign Out</string>
     <string name="e_mail">E-mail</string>
     <string name="password">Password</string>
     <string name="invalid_email">Please enter a valid email</string>
@@ -8,21 +12,27 @@
     <string name="wrong_password">Wrong Password</string>
     <string name="login_failed">Login Failed.</string>
     <string name="too_many_request">Too many requests. Try again later</string>
-    <string name="location_permission_inform_message">This application needs your location information. Give location permission so that the restaurants around you can be listed.</string>
+    <string name="location_permission_inform_message">This application needs your location information.
+        <br>Give location permission so that the restaurants around you can be listed.</br></string>
     <string name="location_permission_title">Location Permission</string>
     <string name="okay">OKAY</string>
     <string name="dismiss">DISMISS</string>
-    <string name="location_permission_denied_message">The restaurants in your area cannot be listed because the location information has not been shared. Allow location permission for this application from permission settings.</string>
-    <string name="location_gps_disabled_message">The restaurants in your area cannot be listed because the location feature is disabled in your device. Activate the location in your device settings</string>
-    <string name="location_gps_enabled">GPS Enabled</string>
+    <string name="location_permission_denied_message">The restaurants in your area cannot be listed because the location information has not been shared.
+        <br>Allow location permission for this application from permission settings.</br></string>
+    <string name="location_gps_disabled_message">Activate the location in your device settings to get the most recent restaurants in your location</string>
+    <string name="location_gps_enabled">GPS Enabled. Getting your location information…</string>
     <string name="restaurant_image">Restaurant Image</string>
-    <string name="restaurant_name">Restaurant Name</string>
-    <string name="restaurant_address">Restaurant Address</string>
-    <string name="restaurant_telephone">Restaurant Telephone</string>
-    <string name="restaurant_cuisines">Restaurant Cuisines</string>
-    <string name="restaurant_highlights">Restaurant Highlights</string>
-    <string name="rating">Rating</string>
-    <string name="votes">Votes</string>
-    <string name="restaurant_timings">Restaurant Timings</string>
+    <string name="highlights">Highlights</string>
+    <string name="cuisines">Cuisines</string>
+    <string name="address">Address</string>
+    <string name="timings">Timings</string>
 
+    <!-- Dummy fields to overview restaurant_recyclerview_item layout -->
+    <string name="restaurant_name_dummy">Restaurant Name<br>Restaurant Name</br></string>
+    <string name="restaurant_address_dummy">Restaurant Address<br>Restaurant Address</br></string>
+    <string name="restaurant_cuisines_dummy">Restaurant Cuisines<br>Restaurant Cuisines</br></string>
+    <string name="restaurant_highlights_dummy">Restaurant Highlights<br>Restaurant Highlights</br><br>Restaurant Highlights</br><br>Restaurant Highlights</br><br>Restaurant Highlights</br><br>Restaurant Highlights</br></string>
+    <string name="rating_dummy">RatingRating</string>
+    <string name="votes_dummy">VotesVotes</string>
+    <string name="restaurant_timings_dummy">Restaurant Timings<br>Restaurant Timings</br><br>Restaurant Timings</br><br>Restaurant Timings</br><br>Restaurant Timings</br></string>
 </resources>

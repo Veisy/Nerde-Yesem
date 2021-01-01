@@ -35,7 +35,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        //Hide toolbar of activity in this fragment.
+        requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
+
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -84,6 +86,8 @@ public class LoginFragment extends Fragment {
             if(firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) {
                 //Successfully logged in.
+                //Pop login screen from backstack.
+                navController.popBackStack(R.id.masterRestaurantFragment, true);
                 navController.navigate(R.id.masterRestaurantFragment);
 
             } else {
@@ -143,5 +147,4 @@ public class LoginFragment extends Fragment {
         binding.progressBarLogin.setVisibility(View.VISIBLE);
         userViewModel.login(userModel);
     }
-
 }

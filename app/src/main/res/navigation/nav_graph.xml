@@ -8,21 +8,27 @@
     <fragment
         android:id="@+id/masterRestaurantFragment"
         android:name="com.example.nerdeyesem.fragment.RestaurantMasterFragment"
-        android:label="fragment_master_restaurant"
-        tools:layout="@layout/fragment_restaurant_master" >
+        tools:layout="@layout/fragment_restaurant_master">
         <action
             android:id="@+id/action_masterRestaurantFragment_to_detailRestaurantFragment"
-            app:destination="@id/detailRestaurantFragment" />
+            app:destination="@id/detailRestaurantFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/detailRestaurantFragment"
         android:name="com.example.nerdeyesem.fragment.RestaurantDetailFragment"
-        android:label="fragment_detail_restaurant"
-        tools:layout="@layout/fragment_restaurant_detail" />
+        tools:layout="@layout/fragment_restaurant_detail">
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.nerdeyesem.fragment.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-    </fragment>
+        android:label="Login Screen"
+        tools:layout="@layout/fragment_login"></fragment>
 </navigation>

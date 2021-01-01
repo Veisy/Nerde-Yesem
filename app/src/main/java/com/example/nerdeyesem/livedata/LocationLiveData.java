@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 
-import androidx.lifecycle.LiveData;
+import androidx.annotation.MainThread;
 
 import com.example.nerdeyesem.model.LocationModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -13,7 +13,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-public class LocationLiveData extends LiveData<LocationModel> {
+
+//Extended LiveData class as SingleLiveEvent (in the livedata package) that will only send an update once.
+//We needed it because in some scenarios livedata was updated more than once without updating location.
+public class LocationLiveData extends SingleLiveEvent<LocationModel> {
 
     //Location request is a config file for all settings related to FusedLocationProviderClient.
     public static LocationRequest locationRequest = LocationRequest.create();
@@ -47,11 +50,12 @@ public class LocationLiveData extends LiveData<LocationModel> {
         };
     }
 
+    @MainThread
     private void setLocationData(Location location) {
         if (location != null) {
             //We got a valid location, remove updates.
             fusedLocationClient.removeLocationUpdates(locationCallback);
-            postValue(new LocationModel(location.getLongitude(), location.getLatitude()));
+            setValue(new LocationModel(location.getLongitude(), location.getLatitude()));
         }
     }
 
@@ -61,6 +65,7 @@ public class LocationLiveData extends LiveData<LocationModel> {
     }
 
     @SuppressLint("MissingPermission")
+    @MainThread
     @Override
     protected void onActive() {
         super.onActive();
@@ -68,10 +73,10 @@ public class LocationLiveData extends LiveData<LocationModel> {
         startLocationUpdates();
     }
 
+    @MainThread
     @Override
     protected void onInactive() {
         super.onInactive();
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
-
 }

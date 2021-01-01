@@ -4,18 +4,243 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login"
+    android:background="@drawable/background_restaurant_fragment"
     tools:context=".fragment.RestaurantDetailFragment">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageView_detail_restaurantImage"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/restaurant_image_height_large"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Welcome To Detail Restaurant Fragment"
-        android:textColor="@color/colorGreyDark"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/restaurant_image"
+        android:src="@drawable/ic_restaurant_default"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_detail_colorRatingBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/color_bar_height"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_detail_restaurantImage" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantName"
+        style="@style/Widget.MaterialComponents.TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:maxLines="2"
+        android:text="@string/restaurant_name_dummy"
+        android:textSize="@dimen/restaurant_name_text_size_large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_detail_colorRatingBar"
+        app:layout_constraintBottom_toTopOf="@id/separator_line1"/>
+
+    <View
+        android:id="@+id/separator_line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="16dp"
+        android:background="@color/colorGreyVeryLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_detail_restaurantVotes" />
+
+    <TextView
+        android:id="@+id/textView_title_restaurantCuisines"
+        style="@style/restaurant_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/cuisines"
+        app:layout_constraintStart_toStartOf="@+id/textView_detail_restaurantName"
+        app:layout_constraintTop_toBottomOf="@+id/separator_line1" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantCuisines"
+        style="@android:style/Widget.Material.Light.TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="2"
+        android:text="@string/restaurant_cuisines_dummy"
+        android:textColor="@color/colorTeal_700"
+        android:textSize="@dimen/restaurant_address_cuisines_size_large"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantCuisines"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantCuisines" />
+
+    <View
+        android:id="@+id/separator_line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/textView_detail_restaurantCuisines"
+        android:background="@color/colorGreyVeryLight"/>
+
+    <TextView
+        android:id="@+id/textView_title_restaurantHighlights"
+        style="@style/restaurant_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/highlights"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantCuisines"
+        app:layout_constraintTop_toBottomOf="@+id/separator_line2" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantHighlights"
+        style="@android:style/Widget.Material.Light.TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="5"
+        android:text="@string/restaurant_highlights_dummy"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/restaurant_address_highlights_size_large"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@id/textView_title_restaurantHighlights"
+        app:layout_constraintTop_toBottomOf="@id/textView_title_restaurantHighlights" />
+
+    <View
+        android:id="@+id/separator_line3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/textView_detail_restaurantHighlights"
+        android:background="@color/colorGreyVeryLight"/>
+
+    <TextView
+        android:id="@+id/textView_title_restaurantTimings"
+        style="@style/restaurant_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/timings"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantCuisines"
+        app:layout_constraintTop_toBottomOf="@+id/separator_line3" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantTimings"
+        style="@android:style/Widget.Material.Light.TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="5"
+        android:text="@string/restaurant_timings_dummy"
+        android:textSize="@dimen/restaurant_timings_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantTimings"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantTimings" />
+
+    <View
+        android:id="@+id/separator_line4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/textView_detail_restaurantTimings"
+        android:background="@color/colorGreyVeryLight"/>
+
+    <TextView
+        android:id="@+id/textView_title_restaurantAddress"
+        style="@style/restaurant_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/address"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantCuisines"
+        app:layout_constraintTop_toBottomOf="@id/separator_line4" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantAddress"
+        style="@android:style/Widget.Material.Light.TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="2"
+        android:text="@string/restaurant_address_dummy"
+        android:textSize="@dimen/restaurant_address_text_size_large"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantAddress" />
+
+
+    <View
+        android:id="@+id/separator_vertical"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintEnd_toEndOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/view_detail_colorRatingBar"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detail_restaurantAddress"
+        android:background="@color/colorGreyVeryLight"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar_detail_restaurantRating"
+        style="@android:style/Widget.Material.Light.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_detail_restaurantName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/textView_detail_restaurantName" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantRating"
+        style="@android:style/Widget.Material.Light.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="14"
+        android:maxLines="1"
+        android:text="@string/rating_dummy"
+        android:textSize="@dimen/restaurant_rating_text_size_large"
+        app:layout_constraintBottom_toTopOf="@+id/ratingBar_detail_restaurantRating"
+        app:layout_constraintEnd_toEndOf="@id/ratingBar_detail_restaurantRating"
+        app:layout_constraintStart_toStartOf="@id/ratingBar_detail_restaurantRating"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/textView_detail_restaurantVotes"
+        style="@android:style/Widget.Material.Light.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:text="@string/votes_dummy"
+        android:textSize="@dimen/restaurant_votes_text_size_large"
+        app:layout_constraintEnd_toEndOf="@id/ratingBar_detail_restaurantRating"
+        app:layout_constraintStart_toStartOf="@id/ratingBar_detail_restaurantRating"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar_detail_restaurantRating" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

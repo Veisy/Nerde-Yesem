@@ -10,15 +10,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserViewModel extends ViewModel {
     private final FirebaseEmailAuthRepository firebaseEmailAuthRepository;
-    private final LiveData<Resource<FirebaseUser>> userMutableLiveData;
 
     public UserViewModel() {
         firebaseEmailAuthRepository = new FirebaseEmailAuthRepository();
-        userMutableLiveData = firebaseEmailAuthRepository.getUserLiveData();
     }
 
     public LiveData<Resource<FirebaseUser>> getUser() {
-        return userMutableLiveData;
+        return firebaseEmailAuthRepository.getUserLiveData();
     }
 
     //Update userMutableLiveData and return success value.
