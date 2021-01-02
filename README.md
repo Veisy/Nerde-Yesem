@@ -38,7 +38,7 @@ Nerde Yesem application is a sample project application that pulls and lists the
 
 ### Application Architecture
 
-This application is made in the architecture of model view view model (MVVM) in single activity structure.
+This application is made wıth the architecture of model view view model (MVVM) in single activity structure.
 Using the single activity structure, navigation components are used with full efficiency.
 
 
