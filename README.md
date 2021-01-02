@@ -33,12 +33,12 @@ Nerde Yesem application is a sample project application that pulls and lists the
 
 ### Screenshots
 
-![Nerdeyesem-preview](https://user-images.githubusercontent.com/43733328/103456108-26bc1380-4d04-11eb-90a6-a9c699f2f74b.jpg)
+![preview](https://user-images.githubusercontent.com/43733328/103468526-db891b80-4d6a-11eb-840f-e220d5c5d833.png)
 
 
 ### Application Architecture
 
-This application is made with the architecture of Model View View Model (MVVM) in single activity structure.
+This application is made with Model View View Model (MVVM) architecture in single activity structure.
 With the benefit of the single activity structure, we got the most of the navigation components.
 
 
@@ -54,7 +54,8 @@ This application contains the following features.
 
 
 I created the table below to help you to understand which classes in this project are used by which feature.
-![class table](https://user-images.githubusercontent.com/43733328/103461671-1ff7c580-4d31-11eb-9f26-de6c29560092.png)
+![table](https://user-images.githubusercontent.com/43733328/103468495-9664e980-4d6a-11eb-90bc-17e3cff768a8.png)
+
 
 ### Libraries
 
