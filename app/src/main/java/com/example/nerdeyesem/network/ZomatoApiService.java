@@ -1,5 +1,6 @@
 package com.example.nerdeyesem.network;
 
+import com.example.nerdeyesem.model.ReviewsModel;
 import com.example.nerdeyesem.model.RestaurantsModel;
 
 import retrofit2.Call;
@@ -15,4 +16,9 @@ public interface ZomatoApiService {
                                           @Query("lat") Double latitude,
                                           @Query("lon") Double longitude,
                                           @Query("sort") String sort);
+
+    @GET("reviews")
+    Call<ReviewsModel> getReviews(@Header("user-key") String userKey,
+                                  @Query("res_id") Integer resId);
+
 }

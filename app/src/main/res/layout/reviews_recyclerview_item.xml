@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout_review"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp">
+
+    <View
+        android:id="@+id/view_reviewColorRatingBar"
+        android:layout_width="@dimen/color_bar_height"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_reviewRatingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLength="10"
+        android:maxLines="1"
+        android:text="@string/rating_dummy"
+        android:textSize="@dimen/review_rating_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/ratingBar_reviewRating"
+        app:layout_constraintStart_toStartOf="@+id/ratingBar_reviewRating"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBar_reviewRating"
+        style="@android:style/Widget.Material.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/view_reviewColorRatingBar"
+        app:layout_constraintTop_toBottomOf="@+id/textView_reviewRatingText" />
+
+    <TextView
+        android:id="@+id/textView_reviewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:text="@string/votes_dummy"
+        android:textSize="@dimen/review_time_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/ratingBar_reviewRating"
+        app:layout_constraintStart_toStartOf="@+id/ratingBar_reviewRating"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar_reviewRating" />
+
+    <TextView
+        android:id="@+id/textView_reviewText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:maxLines="20"
+        android:text="@string/restaurant_highlights_dummy"
+        android:textSize="@dimen/review_review_text_size"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar_reviewRating"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,10 +29,11 @@
 
     <!-- Dummy fields to overview restaurant_recyclerview_item layout -->
     <string name="restaurant_name_dummy">Restaurant Name<br>Restaurant Name</br></string>
-    <string name="restaurant_address_dummy">Restaurant Address<br>Restaurant Address</br></string>
+    <string name="restaurant_address_dummy">Restaurant Address<br>Restaurant Address</br><br>Restaurant Address</br><br>Restaurant Address</br><br>Restaurant Address</br><br>Restaurant Address</br></string>
     <string name="restaurant_cuisines_dummy">Restaurant Cuisines<br>Restaurant Cuisines</br></string>
     <string name="restaurant_highlights_dummy">Restaurant Highlights<br>Restaurant Highlights</br><br>Restaurant Highlights</br><br>Restaurant Highlights</br><br>Restaurant Highlights</br><br>Restaurant Highlights</br></string>
     <string name="rating_dummy">RatingRating</string>
     <string name="votes_dummy">VotesVotes</string>
     <string name="restaurant_timings_dummy">Restaurant Timings<br>Restaurant Timings</br><br>Restaurant Timings</br><br>Restaurant Timings</br><br>Restaurant Timings</br></string>
+    <string name="reviews">Reviews</string>
 </resources>

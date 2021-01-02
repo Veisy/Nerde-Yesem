@@ -16,5 +16,8 @@
     <dimen name="restaurant_votes_text_size">10sp</dimen>
     <dimen name="restaurant_votes_text_size_large">12sp</dimen>
     <dimen name="restaurant_timings_text_size">14sp</dimen>
+    <dimen name="review_rating_text_size">14sp</dimen>
+    <dimen name="review_time_text_size">12sp</dimen>
+    <dimen name="review_review_text_size">14sp</dimen>
     <dimen name="color_bar_height">8dp</dimen>
 </resources>

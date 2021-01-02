@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +16,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.nerdeyesem.R;
+import com.example.nerdeyesem.adapters.ReviewRecyclerViewAdapter;
 import com.example.nerdeyesem.databinding.FragmentRestaurantDetailBinding;
 import com.example.nerdeyesem.model.RestaurantsModel;
+import com.example.nerdeyesem.model.ReviewsModel;
 import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.viewmodel.RestaurantsViewModel;
+import com.example.nerdeyesem.viewmodel.ReviewsViewModel;
 import com.example.nerdeyesem.viewmodel.UserViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +35,14 @@ import java.util.Objects;
 
 public class RestaurantDetailFragment extends Fragment {
     private FragmentRestaurantDetailBinding binding;
+
+    private int position;
+
+    private RestaurantsViewModel restaurantsViewModel;
+    private ReviewsViewModel reviewsViewModel;
+
     private RestaurantsModel.RestaurantModel restaurantModel;
+    private ReviewsModel reviewsModel;
 
     private UserViewModel userViewModel;
     private NavController navController;
@@ -40,20 +53,7 @@ public class RestaurantDetailFragment extends Fragment {
     private String restaurantTimings;
     private int color;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        final Bundle arguments = getArguments();
-        if (arguments != null) {
-            int position = arguments.getInt("position", 0);
-            RestaurantsViewModel restaurantsViewModel =
-                    new ViewModelProvider(requireActivity()).get(RestaurantsViewModel.class);
-            if (restaurantsViewModel.getRestaurants().getValue() != null)
-                restaurantModel = Objects.requireNonNull(restaurantsViewModel
-                        .getRestaurants().getValue().data)
-                        .getSingleRestaurantModelList().get(position).getRestaurantModel();
-        }
+    public RestaurantDetailFragment() {
     }
 
     @Override
@@ -71,9 +71,20 @@ public class RestaurantDetailFragment extends Fragment {
         toolbar.setTitle(getString(R.string.restaurant_details));
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            position = arguments.getInt("position", 0);
+
+            initRestaurantViewModel();
+            getRestaurantModel();
+            initReviewViewModel();
+            initReviewLiveDataObserver();
+        }
 
         initUserViewModel();
         initNavigationController(view);
@@ -88,6 +99,41 @@ public class RestaurantDetailFragment extends Fragment {
         setColorAndImage();
         setFields();
     }
+
+    private void initRestaurantViewModel() {
+        restaurantsViewModel = new ViewModelProvider(requireActivity())
+                .get(RestaurantsViewModel.class);
+    }
+
+    private void getRestaurantModel() {
+        // Get RestaurantModel from RestaurantsViewModel class if not null.
+        if (restaurantsViewModel.getRestaurants().getValue() != null)
+            restaurantModel = Objects.requireNonNull(restaurantsViewModel
+                    .getRestaurants().getValue().data)
+                    .getSingleRestaurantModelList().get(position).getRestaurantModel();
+    }
+
+    private void initReviewViewModel() {
+        reviewsViewModel = new ViewModelProvider(requireActivity())
+                .get(ReviewsViewModel.class);
+        int resId = Integer.parseInt(restaurantModel.getId());
+        reviewsViewModel.findReviews(resId);
+    }
+
+    private void initReviewLiveDataObserver() {
+        reviewsViewModel.getReviews().observe(getViewLifecycleOwner(),
+                reviewsModelResource -> {
+                    if (reviewsModelResource.status == Resource.Status.SUCCESS) {
+                        reviewsModel = reviewsModelResource.data;
+
+                        setReviewsRecyclerView();
+                    } else {
+                       binding.textViewReviewsStatus.setVisibility(View.VISIBLE);
+                       binding.textViewReviewsStatus.setText(reviewsModelResource.message);
+                    }
+                });
+    }
+
 
     private void initUserViewModel() {
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
@@ -162,4 +208,16 @@ public class RestaurantDetailFragment extends Fragment {
         binding.textViewDetailRestaurantRating
                 .setTextColor(Color.parseColor(restaurantRatingColor));
     }
+
+    private void setReviewsRecyclerView() {
+        ReviewRecyclerViewAdapter reviewRecyclerViewAdapter =
+                new ReviewRecyclerViewAdapter(requireContext(), reviewsModel);
+        binding.recyclerViewReviews.setAdapter(reviewRecyclerViewAdapter);
+        binding.recyclerViewReviews.setLayoutManager(new LinearLayoutManager(requireContext()));
+        LayoutAnimationController layoutAnimationController = AnimationUtils
+                .loadLayoutAnimation(requireContext(), R.anim.recyclerview_layout_animation);
+        binding.recyclerViewReviews.setLayoutAnimation(layoutAnimationController);
+    }
+
+
 }
