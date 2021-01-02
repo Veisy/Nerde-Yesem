@@ -14,6 +14,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.nerdeyesem.network.ZomatoApiClient.API_KEY;
+
 public class ZomatoReviewsRepository {
 
     private final ZomatoApiService zomatoApiService;
@@ -21,6 +23,7 @@ public class ZomatoReviewsRepository {
     //Extended LiveData class as SingleLiveEvent(in the livedata package) that will only send an update once.
     //We needed it because in some scenarios livedata was updated more than once without updating location.
     //More details and explanations available on class declaration.
+
     private final SingleLiveEvent<Resource<ReviewsModel>> resourceSingleLiveEvent;
 
     public ZomatoReviewsRepository() {
@@ -29,7 +32,7 @@ public class ZomatoReviewsRepository {
     }
 
     public void findReviews(Integer resId) {
-        zomatoApiService.getReviews(ZomatoRestaurantsRepository.API_KEY, resId)
+        zomatoApiService.getReviews(API_KEY, resId)
                 .enqueue(new Callback<ReviewsModel>() {
                     @Override
                     public void onResponse(@NotNull Call<ReviewsModel> call,

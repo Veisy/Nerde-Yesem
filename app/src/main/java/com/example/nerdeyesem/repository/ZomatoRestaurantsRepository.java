@@ -14,12 +14,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.nerdeyesem.network.ZomatoApiClient.API_KEY;
+
 public class ZomatoRestaurantsRepository {
 
-    //For now, I am sharing the API key here, for you to test the application.
-    // And that's why I had to hide my repo.
-    // Then I will keep this api key as environment variable and make the repo public.
-    public static final String API_KEY = "17361d6eadaae515bd66272977b5e85f";
     private static final Integer COUNT = 100;
     private static final String SORT_BY_REAL_DISTANCE = "real_distance";
 
