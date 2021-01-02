@@ -54,16 +54,13 @@ This application contains the following features.
 
 
 I created the table below to help you to understand which classes in this project are used by which feature.
-<br>
-
-![Class Table](https://user-images.githubusercontent.com/43733328/103459529-2bdb8b80-4d21-11eb-8d18-8125d0e4848a.png)
-
+![class table](https://user-images.githubusercontent.com/43733328/103461671-1ff7c580-4d31-11eb-9f26-de6c29560092.png)
 
 ### Libraries
 
 * **Material Design** 
 ```sh
-com.google.android.material:material:1.2.1
+    implementation 'com.google.android.material:material:1.2.1'
 ```
 * **Navigation Components**
 ```sh
