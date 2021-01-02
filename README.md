@@ -54,7 +54,7 @@ This application contains the following features.
 
 
 I created the table below to help you to understand which classes in this project are used by which feature.
-
+<br>
 
 ![Class Table](https://user-images.githubusercontent.com/43733328/103459529-2bdb8b80-4d21-11eb-8d18-8125d0e4848a.png)
 
@@ -113,7 +113,7 @@ To get a local copy up and running follow these simple example steps.
 This application requires minimum Android 5.0 (API level 21).
 ### Installation
 
-1. Get a free API Key from [https://developers.zomato.com/api)
+1. Get a free API Key from https://developers.zomato.com/api
 
 2. Clone the repo
    ```sh
