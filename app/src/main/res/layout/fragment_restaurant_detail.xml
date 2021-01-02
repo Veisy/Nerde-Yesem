@@ -74,17 +74,16 @@
         style="@android:style/Widget.Material.Light.TextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorTeal_700"
-        android:textSize="@dimen/restaurant_address_cuisines_size_large"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
-        android:maxLines="4"
-        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantCuisines"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantCuisines"
-        app:layout_constraintBottom_toTopOf="@id/separator_line2"
+        android:maxLines="5"
         android:text="@string/restaurant_cuisines_dummy"
-        />
+        android:textColor="@color/colorTeal_700"
+        android:textSize="@dimen/restaurant_address_cuisines_size_large"
+        app:layout_constraintBottom_toTopOf="@id/separator_line2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantCuisines"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantCuisines" />
 
     <View
         android:id="@+id/separator_line2"
@@ -111,10 +110,10 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@id/textView_title_restaurantHighlights"
-        app:layout_constraintTop_toBottomOf="@id/textView_title_restaurantHighlights">
+        app:layout_constraintTop_toBottomOf="@id/textView_title_restaurantHighlights"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2">
 
         <TextView
             android:id="@+id/textView_detail_restaurantHighlights"
@@ -155,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
-        android:maxLines="5"
+        android:maxLines="6"
         android:text="@string/restaurant_timings_dummy"
         android:textSize="@dimen/restaurant_timings_text_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,20 +181,27 @@
         app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantTimings"
         app:layout_constraintTop_toBottomOf="@+id/separator_line4" />
 
-    <TextView
-        android:id="@+id/textView_detail_restaurantAddress"
-        style="@android:style/Widget.Material.Light.TextView"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
-        android:maxLines="5"
-        android:text="@string/restaurant_address_dummy"
-        android:textSize="@dimen/restaurant_address_text_size_large"
-        android:textStyle="italic"
+        android:layout_marginBottom="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantAddress"
-        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_title_restaurantAddress"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2">
+        <TextView
+            android:id="@+id/textView_detail_restaurantAddress"
+            style="@android:style/Widget.Material.Light.TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="10"
+            android:text="@string/restaurant_address_dummy"
+            android:textSize="@dimen/restaurant_address_text_size_large"
+            android:textStyle="italic"
+            />
+    </ScrollView>
 
     <View
         android:id="@+id/separator_vertical"
@@ -259,7 +265,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.7" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_reviews"
