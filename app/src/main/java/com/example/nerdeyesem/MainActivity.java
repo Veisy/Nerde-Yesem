@@ -22,6 +22,11 @@ import com.example.nerdeyesem.viewmodel.UserViewModel;
 import static com.example.nerdeyesem.utils.GpsUtils.GPS_REQUEST;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Enter your valid Zomato Api Key here.
+    // Delete BuildConfig.ApiKey, and replace "yourApiKey'
+    public static final String API_KEY = BuildConfig.ApiKey;
+
     private NavController navController;
 
     @Override

@@ -1,3 +1,4 @@
+
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'  // Google Services plugin
@@ -23,9 +24,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String' , "ApiKey" , ZOMATO_API_KEY
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String' , "ApiKey" , ZOMATO_API_KEY
         }
     }
     compileOptions {
@@ -46,8 +52,8 @@ dependencies {
 
     implementation "androidx.activity:activity:1.2.0-rc01"
 
-    def nav_version = "2.3.2"
     // Navigation dependencies
+    def nav_version = "2.3.2"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version" // Feature module Support

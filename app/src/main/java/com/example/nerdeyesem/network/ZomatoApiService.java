@@ -1,5 +1,6 @@
 package com.example.nerdeyesem.network;
 
+import com.example.nerdeyesem.BuildConfig;
 import com.example.nerdeyesem.model.ReviewsModel;
 import com.example.nerdeyesem.model.RestaurantsModel;
 

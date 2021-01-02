@@ -49,10 +49,13 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecycl
                 .get(position).getChildReview();
 
         String reviewRatingColor = "#" + childReview.getRatingColor();
+        int color = Color.parseColor(reviewRatingColor);
 
         try {
             holder.binding.viewReviewColorRatingBar
-                    .setBackgroundColor(Color.parseColor(reviewRatingColor));
+                    .setBackgroundColor(color);
+            holder.binding.textViewReviewRatingText
+                    .setTextColor(color);
             holder.binding.textViewReviewRatingText
                     .setText(childReview.getRatingText());
             holder.binding.ratingBarReviewRating

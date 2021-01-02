@@ -2,6 +2,7 @@ package com.example.nerdeyesem.repository;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.nerdeyesem.MainActivity;
 import com.example.nerdeyesem.livedata.SingleLiveEvent;
 import com.example.nerdeyesem.model.RestaurantsModel;
 import com.example.nerdeyesem.network.ZomatoApiClient;
@@ -14,11 +15,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.nerdeyesem.network.ZomatoApiClient.API_KEY;
-
 public class ZomatoRestaurantsRepository {
 
-    private static final Integer COUNT = 100;
+    private static final Integer COUNT = 20;
     private static final String SORT_BY_REAL_DISTANCE = "real_distance";
 
     private final ZomatoApiService zomatoApiService;
@@ -34,7 +33,7 @@ public class ZomatoRestaurantsRepository {
     }
 
     public void findRestaurants(Double latitude, Double longitude) {
-        zomatoApiService.getRestaurants(API_KEY, COUNT, latitude, longitude, SORT_BY_REAL_DISTANCE)
+        zomatoApiService.getRestaurants(MainActivity.API_KEY, COUNT, latitude, longitude, SORT_BY_REAL_DISTANCE)
                 .enqueue(new Callback<RestaurantsModel>() {
                     @Override
                     public void onResponse(@NotNull Call<RestaurantsModel> call,

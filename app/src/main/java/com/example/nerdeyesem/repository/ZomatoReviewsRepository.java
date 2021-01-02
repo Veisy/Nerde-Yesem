@@ -2,6 +2,7 @@ package com.example.nerdeyesem.repository;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.nerdeyesem.MainActivity;
 import com.example.nerdeyesem.livedata.SingleLiveEvent;
 import com.example.nerdeyesem.model.ReviewsModel;
 import com.example.nerdeyesem.network.ZomatoApiClient;
@@ -13,8 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.nerdeyesem.network.ZomatoApiClient.API_KEY;
 
 public class ZomatoReviewsRepository {
 
@@ -32,7 +31,7 @@ public class ZomatoReviewsRepository {
     }
 
     public void findReviews(Integer resId) {
-        zomatoApiService.getReviews(API_KEY, resId)
+        zomatoApiService.getReviews(MainActivity.API_KEY, resId)
                 .enqueue(new Callback<ReviewsModel>() {
                     @Override
                     public void onResponse(@NotNull Call<ReviewsModel> call,
