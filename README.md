@@ -52,7 +52,9 @@ This application contains the following features.
 * **Animations.** in RecyclerViews and fragment transitions.
 * **View Binding.**
 
+
 I created the table below to help understand which classes in this project are used by which feature.
+
 
 ![Class Table](https://user-images.githubusercontent.com/43733328/103459529-2bdb8b80-4d21-11eb-8d18-8125d0e4848a.png)
 
