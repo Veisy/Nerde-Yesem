@@ -58,7 +58,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
-        android:maxLines="20"
+        android:maxLines="30"
         android:text="@string/restaurant_highlights_dummy"
         android:textSize="@dimen/review_review_text_size"
         android:textStyle="italic"
