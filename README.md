@@ -1,4 +1,4 @@
-#Nerde Yesem
+# Nerde Yesem
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -38,19 +38,26 @@ Nerde Yesem application is a sample project application that pulls and lists the
 
 ### Application Architecture
 
-This application is made in the architecture of model view view model (MVVM) in single activity structure.
-Using the single activity structure, navigation components are used with full efficiency.
+This application is made with the architecture of Model View View Model (MVVM) in single activity structure.
+With the benefit of the single activity structure, we got the most of the navigation components.
 
 
 ### Features
 
 This application contains the following features.
-* **Firebase Authentication integrated with Crashlytics.** Contains exception handling for possible situation
+* **Firebase Authentication integrated with Crashlytics.** Contains exception handling for possible situations
 * **Location information.** Obtaining location information by getting location permission from the user and asking to activate GPS. Exeption handling for possible situations
-* **Zomato API.** After obtaining the location information of the user, showing the information of the nearby restaurants in the RecyclerView from close to far away.
-* **Zomato Reviews.** When the user clicks on a restaurant, pulling restaurant comments from the Zomato API with restaurant ID and listing them in RecyclerView.
+* **Zomato API.** After obtaining the location information of the user, showing the information of the nearby restaurants in the RecyclerView from close to far.
+* **Zomato Reviews.** When user selects a restaurant, pulling restaurant reviews from the Zomato API with restaurant ID and listing them in RecyclerView.
 * **Animations.** in RecyclerViews and fragment transitions.
 * **View Binding.**
+
+
+I created the table below to help you to understand which classes in this project are used by which feature.
+<br>
+
+![Class Table](https://user-images.githubusercontent.com/43733328/103459529-2bdb8b80-4d21-11eb-8d18-8125d0e4848a.png)
+
 
 ### Libraries
 
@@ -105,19 +112,20 @@ To get a local copy up and running follow these simple example steps.
 
 This application requires minimum Android 5.0 (API level 21).
 ### Installation
-<!-- USAGE EXAMPLES
-1. Get a free API Key at [https://developers.zomato.com/api)
- -->
-Clone the repo
+
+1. Get a free API Key from https://developers.zomato.com/api
+
+2. Clone the repo
    ```sh
    git clone https://github.com/Veisy/Nerde-Yesem.git
    ```
-   <!-- 
-3. Enter your API in `config.js`
+3. Enter your API Key in MainActivity static String field
    ```JS
-   const API_KEY = 'ENTER YOUR API';
+    // Enter your valid Zomato Api Key here.
+    // Delete BuildConfig.ApiKey, and replace "yourApiKey'
+    public static final String API_KEY = BuildConfig.ApiKey;
    ```
-  -->
+  
  
 
 <!-- USAGE EXAMPLES -->
