@@ -47,6 +47,7 @@ With the benefit of the single activity structure, we got the most of the naviga
 This application contains the following features.
 * **Firebase Authentication integrated with Crashlytics.** Contains exception handling for possible situations
 * **Location information.** Obtaining location information by getting location permission from the user and asking to activate GPS. Exeption handling for possible situations
+* **Distance Calculation.** With the calculation of the travelled distance, a new request from the API is not required for movements below 1 km. Significant performance improvement has been achieved in UI recreation, returning to the restaurants screen from details, and movements over small distances.
 * **Zomato API.** After obtaining the location information of the user, showing the information of the nearby restaurants in the RecyclerView from close to far.
 * **Zomato Reviews.** When user selects a restaurant, pulling restaurant reviews from the Zomato API with restaurant ID and listing them in RecyclerView.
 * **Animations.** in RecyclerViews and fragment transitions.
@@ -54,7 +55,7 @@ This application contains the following features.
 
 
 I created the table below to help you to understand which classes in this project are used by which feature.
-![table](https://user-images.githubusercontent.com/43733328/103468495-9664e980-4d6a-11eb-90bc-17e3cff768a8.png)
+![Class Table](https://user-images.githubusercontent.com/43733328/103480011-c0f28900-4de2-11eb-8c76-dac4c734f8dd.png)
 
 
 ### Libraries
@@ -130,7 +131,8 @@ This application requires minimum Android 5.0 (API level 21).
 ## Usage
 ![Screenshot_20210102-141127_Nerde Yesem](https://user-images.githubusercontent.com/43733328/103456195-e5783380-4d04-11eb-88f5-b6bbae8c989d.jpg)
 
-![Screenshot_20210102-141204_Nerde Yesem](https://user-images.githubusercontent.com/43733328/103456203-f32db900-4d04-11eb-8d8e-858cfea6b247.jpg)
+![Screenshot_20210103-164458_Nerde Yesem](https://user-images.githubusercontent.com/43733328/103480110-5aba3600-4de3-11eb-8e91-58fda074d5df.jpg)
+
 
 ![Screenshot_20210102-141219_Nerde Yesem](https://user-images.githubusercontent.com/43733328/103456205-fcb72100-4d04-11eb-9bad-59e71ecbb3b9.jpg)
 
