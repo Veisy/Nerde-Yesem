@@ -13,8 +13,8 @@ public class NewLocationChecker {
         throw new UnsupportedOperationException();
     }
 
-    public static boolean isNewLocationNeeded (Context context,
-                                               LocationModel previousLocation, LocationModel currentLocation) {
+    public static boolean isNewLocationNeeded (Context context, LocationModel previousLocation,
+                                               LocationModel currentLocation) {
         // Check if new location needed when UI recreated.
         // If distance travelled is more then 1km, then request new data from API.
         // Distance calculation function is belong to  RestaurantModel class.
@@ -24,14 +24,11 @@ public class NewLocationChecker {
             //if distance travelled is more then 1 km.
             if (distance > 1000) {
                 needNewLocation = true;
-            }
-            if(distance > 100) {
                 String distanceMessage = "Distance travelled: " + distance
                         + " meter";
                 Toast.makeText(context, distanceMessage,
                         Toast.LENGTH_LONG).show();
             }
-
         } else {
             needNewLocation = true;
         }

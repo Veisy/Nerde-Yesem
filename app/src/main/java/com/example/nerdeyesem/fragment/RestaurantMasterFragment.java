@@ -38,6 +38,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class RestaurantMasterFragment extends Fragment implements RestaurantsRecyclerViewAdapter.OnRestaurantClickListener {
     private FragmentRestaurantMasterBinding binding;
     private UserViewModel userViewModel;
@@ -203,8 +205,8 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
                                         locationModel.getLongitude());
                                 previousLocation = locationModel;
                             } else {
-                                setRestaurantRecyclerView(restaurantsViewModel
-                                        .getRestaurants().getValue().data);
+                                setRestaurantRecyclerView(Objects.requireNonNull(restaurantsViewModel
+                                        .getRestaurants().getValue()).data);
                             }
                         }
                     });
