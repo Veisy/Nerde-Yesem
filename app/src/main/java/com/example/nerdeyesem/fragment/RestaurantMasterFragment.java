@@ -26,8 +26,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.adapters.RestaurantsRecyclerViewAdapter;
 import com.example.nerdeyesem.databinding.FragmentRestaurantMasterBinding;
+import com.example.nerdeyesem.model.LocationModel;
 import com.example.nerdeyesem.model.RestaurantsModel;
 import com.example.nerdeyesem.utils.GpsUtils;
+import com.example.nerdeyesem.utils.NewLocationChecker;
 import com.example.nerdeyesem.utils.Resource;
 import com.example.nerdeyesem.viewmodel.LocationViewModel;
 import com.example.nerdeyesem.viewmodel.RestaurantsViewModel;
@@ -42,6 +44,7 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     private NavController navController;
 
     private LocationViewModel locationViewModel;
+    private LocationModel previousLocation = null;
     // Reference to the return value of registerForActivityResult(),
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
@@ -116,17 +119,19 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     }
 
     private void initRestaurantsLiveDataObserver() {
-        restaurantsViewModel.getRestaurants().observe(getViewLifecycleOwner(),
-                listResource -> {
-                    if (listResource.status == Resource.Status.SUCCESS) {
+        if(!restaurantsViewModel.getRestaurants().hasActiveObservers()) {
+            restaurantsViewModel.getRestaurants().observe(getViewLifecycleOwner(),
+                    listResource -> {
+                        if (listResource.status == Resource.Status.SUCCESS) {
 
-                        setRestaurantRecyclerView(listResource.data);
+                            setRestaurantRecyclerView(listResource.data);
 
-                    } else {
-                        binding.textViewStatusInformation.setText(listResource.message);
-                        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
-                    }
-                });
+                        } else {
+                            binding.textViewStatusInformation.setText(listResource.message);
+                            binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
+                        }
+                    });
+        }
     }
 
     private void setRestaurantRecyclerView(RestaurantsModel restaurantsModel) {
@@ -153,7 +158,8 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
         // Register the permissions callback, which handles the user's response to the
         // system permissions dialog.
         requestPermissionLauncher =
-                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(),
+                        isGranted -> {
                     if (isGranted) {
                         //We check permission anyway
                         //because Android says don't assume any system behaviour,
@@ -183,18 +189,23 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
 
     private void observeLocationUpdate() {
         // Check is there any active observers, if not create one.
-        // We care about this because we make this declaration in another observer.
-        // There is a danger of memory leak by creating a new observer object here every time
-        // when parent observer is triggered.
+        // There is a danger of memory leak by creating a new observer object here every time here.
         if (!locationViewModel.getLocationLiveData().hasActiveObservers()) {
             locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(),
                     locationModel -> {
                         if (locationModel != null) {
                             binding.textViewStatusInformation.setVisibility(View.GONE);
 
-                            //Get restaurants.
-                            restaurantsUpdate(locationModel.getLatitude(),
-                                    locationModel.getLongitude());
+                            if(NewLocationChecker.isNewLocationNeeded(requireContext(),
+                                    previousLocation ,locationModel)) {
+                                //Get restaurants.
+                                restaurantsUpdate(locationModel.getLatitude(),
+                                        locationModel.getLongitude());
+                                previousLocation = locationModel;
+                            } else {
+                                setRestaurantRecyclerView(restaurantsViewModel
+                                        .getRestaurants().getValue().data);
+                            }
                         }
                     });
         }
