@@ -124,8 +124,16 @@ This application requires minimum Android 5.0 (API level 21).
     // Delete BuildConfig.ApiKey, and replace "yourApiKey'
     public static final String API_KEY = BuildConfig.ApiKey;
    ```
-  
- 
+4. You need to delete the following lines from the build.gradle(Module) file. 
+You added your API key in MainActivity, there is no ZOMATO_APP_KEY in your property.grandle file as I have.
+    ```JS
+    debug {
+              buildConfigField 'String' , "ApiKey" , ZOMATO_API_KEY
+    }
+    release {
+              buildConfigField 'String' , "ApiKey" , ZOMATO_API_KEY
+   }
+   ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
