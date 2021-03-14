@@ -1,18 +1,22 @@
-package com.example.nerdeyesem.viewmodel;
+package com.example.nerdeyesem.ui.restaurantsmaster;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.nerdeyesem.model.RestaurantsModel;
-import com.example.nerdeyesem.repository.ZomatoRestaurantsRepository;
 import com.example.nerdeyesem.utils.Resource;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class RestaurantsViewModel extends ViewModel {
 
     private final ZomatoRestaurantsRepository zomatoRestaurantsRepository;
 
-    public RestaurantsViewModel() {
-        zomatoRestaurantsRepository = new ZomatoRestaurantsRepository();
+    @Inject
+    public RestaurantsViewModel(ZomatoRestaurantsRepository zomatoRestaurantsRepository) {
+        this.zomatoRestaurantsRepository = zomatoRestaurantsRepository;
     }
 
     public void findRestaurants (Double latitude,

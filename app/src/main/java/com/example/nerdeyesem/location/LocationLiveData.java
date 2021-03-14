@@ -1,12 +1,14 @@
-package com.example.nerdeyesem.livedata;
+package com.example.nerdeyesem.location;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
+import android.os.Looper;
 
 import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
 
-import com.example.nerdeyesem.model.LocationModel;
+import com.example.nerdeyesem.livedata.SingleLiveEvent;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -28,7 +30,7 @@ public class LocationLiveData extends SingleLiveEvent<LocationModel> {
     static {
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setNumUpdates(1);
     }
 
@@ -39,7 +41,7 @@ public class LocationLiveData extends SingleLiveEvent<LocationModel> {
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
         locationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
+            public void onLocationResult(@Nullable LocationResult locationResult) {
                 if (locationResult == null) {
                     return;
                 }
@@ -61,7 +63,7 @@ public class LocationLiveData extends SingleLiveEvent<LocationModel> {
 
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
     @SuppressLint("MissingPermission")

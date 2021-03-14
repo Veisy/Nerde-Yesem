@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.fragment;
+package com.example.nerdeyesem.ui.restaurantsdetail;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,19 +20,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.nerdeyesem.R;
-import com.example.nerdeyesem.adapters.ReviewRecyclerViewAdapter;
 import com.example.nerdeyesem.databinding.FragmentRestaurantDetailBinding;
-import com.example.nerdeyesem.model.RestaurantsModel;
-import com.example.nerdeyesem.model.ReviewsModel;
+import com.example.nerdeyesem.ui.restaurantsmaster.RestaurantsModel;
 import com.example.nerdeyesem.utils.Resource;
-import com.example.nerdeyesem.viewmodel.RestaurantsViewModel;
-import com.example.nerdeyesem.viewmodel.ReviewsViewModel;
-import com.example.nerdeyesem.viewmodel.UserViewModel;
+import com.example.nerdeyesem.ui.restaurantsmaster.RestaurantsViewModel;
+import com.example.nerdeyesem.ui.login.UserViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class RestaurantDetailFragment extends Fragment {
     private FragmentRestaurantDetailBinding binding;
 
@@ -92,9 +92,9 @@ public class RestaurantDetailFragment extends Fragment {
         // Observe changes on LiveData<FirebaseUser> observable object.
         // If there is no user currently logged in, redirect to the login page
         initUserLiveDataObserver();
+
         // Get values from API via our MVVM architecture,
         // format if needed, then pass to views.
-
         formatStringFields();
         setColorAndImage();
         setFields();
@@ -121,6 +121,7 @@ public class RestaurantDetailFragment extends Fragment {
     }
 
     private void initReviewLiveDataObserver() {
+        reviewsViewModel.getReviews().removeObservers(getViewLifecycleOwner());
         reviewsViewModel.getReviews().observe(getViewLifecycleOwner(),
                 reviewsModelResource -> {
                     if (reviewsModelResource.status == Resource.Status.SUCCESS) {
@@ -145,6 +146,7 @@ public class RestaurantDetailFragment extends Fragment {
 
     // If user auth failed, redirect to login screen.
     private void initUserLiveDataObserver() {
+        userViewModel.getUser().removeObservers(getViewLifecycleOwner());
         userViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUserResource -> {
             if ( !(firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) ) {

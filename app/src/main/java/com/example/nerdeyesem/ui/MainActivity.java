@@ -1,4 +1,4 @@
-package com.example.nerdeyesem;
+package com.example.nerdeyesem.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,18 +14,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.ActivityMainBinding;
-import com.example.nerdeyesem.utils.GpsUtils;
-import com.example.nerdeyesem.viewmodel.LocationViewModel;
-import com.example.nerdeyesem.viewmodel.UserViewModel;
+import com.example.nerdeyesem.location.GpsUtils;
+import com.example.nerdeyesem.location.LocationViewModel;
+import com.example.nerdeyesem.ui.login.UserViewModel;
 
-import static com.example.nerdeyesem.utils.GpsUtils.GPS_REQUEST;
+import dagger.hilt.android.AndroidEntryPoint;
 
+import static com.example.nerdeyesem.location.GpsUtils.GPS_REQUEST;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-
-    // Enter your valid Zomato Api Key here.
-    // Delete BuildConfig.ApiKey, and replace "yourApiKey'
-    public static final String API_KEY = BuildConfig.ApiKey;
 
     private NavController navController;
 

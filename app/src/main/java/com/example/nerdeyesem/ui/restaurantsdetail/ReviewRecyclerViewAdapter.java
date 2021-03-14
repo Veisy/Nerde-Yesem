@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.adapters;
+package com.example.nerdeyesem.ui.restaurantsdetail;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nerdeyesem.databinding.ReviewsRecyclerviewItemBinding;
-import com.example.nerdeyesem.model.ReviewsModel;
 
 import static android.content.ContentValues.TAG;
 

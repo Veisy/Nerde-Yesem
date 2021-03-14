@@ -1,12 +1,16 @@
-package com.example.nerdeyesem.utils;
+package com.example.nerdeyesem.location;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.nerdeyesem.model.LocationModel;
-
 // This static class is for to check if new location request needed based on distance travelled.
-public class NewLocationChecker {
+public final class NewLocationChecker {
+
+    //Save previous location.
+    public static LocationModel previousLocation = null;
+
+    // Threshold of requesting data from the API --> 1 km.
+    public static final int DISTANCE_THRESHOLD = 1000;
 
     // Private constructor to prevent instantiation
     private NewLocationChecker() {
@@ -22,7 +26,7 @@ public class NewLocationChecker {
         if (previousLocation != null) {
             int distance = previousLocation.getDistance(currentLocation);
             //if distance travelled is more then 1 km.
-            if (distance > 1000) {
+            if (distance > DISTANCE_THRESHOLD) {
                 needNewLocation = true;
                 String distanceMessage = "Distance travelled: " + distance
                         + " meter";
