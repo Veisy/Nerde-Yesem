@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.fragment;
+package com.example.nerdeyesem.ui.login;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,11 +15,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.nerdeyesem.R;
+import com.example.nerdeyesem.animation.FadeInAnimation;
 import com.example.nerdeyesem.databinding.FragmentLoginBinding;
-import com.example.nerdeyesem.model.UserModel;
-import com.example.nerdeyesem.repository.FirebaseEmailAuthRepository;
 import com.example.nerdeyesem.utils.Resource;
-import com.example.nerdeyesem.viewmodel.UserViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +45,10 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Animation for login field (fade in)
-        fadeInAnimation(binding.constraintLayoutAuthFields);
+        FadeInAnimation.startAnimation(
+                binding.constraintLayoutAuthFields,
+                getResources().getInteger(android.R.integer.config_mediumAnimTime));
+
         initUserViewModel();
         initNavigationController(view);
 
@@ -55,22 +56,6 @@ public class LoginFragment extends Fragment {
         initUserLiveDataObserver();
 
         initLoginButton();
-    }
-
-    private void fadeInAnimation(View view) {
-        int shortAnimationDuration = getResources().getInteger(
-                android.R.integer.config_mediumAnimTime);
-        // Set the login field to 0% opacity but visible, so that it is visible
-        // (but fully transparent) during the animation.
-        view.setAlpha(0f);
-        view.setVisibility(View.VISIBLE);
-
-        // Animate the content view to 100% opacity, and clear any animation
-        // listener set on the view.
-        view.animate()
-                .alpha(1f)
-                .setDuration(shortAnimationDuration)
-                .setListener(null);
     }
 
     private void initUserViewModel() {
@@ -82,14 +67,18 @@ public class LoginFragment extends Fragment {
     }
 
     private void initUserLiveDataObserver() {
+        userViewModel.getUser().removeObservers(getViewLifecycleOwner());
         userViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUserResource -> {
-            if(firebaseUserResource.status == Resource.Status.SUCCESS
+            if (firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) {
                 //Successfully logged in.
-                //Pop login screen from backstack.
+                //Pop login screen from back stack.
+                //TODO Revisit Back Stack Handling
                 navController.popBackStack(R.id.masterRestaurantFragment, true);
                 navController.navigate(R.id.masterRestaurantFragment);
 
+            } else if (firebaseUserResource.status == Resource.Status.LOADING) {
+                binding.progressBarLogin.setVisibility(View.VISIBLE);
             } else {
                 binding.progressBarLogin.setVisibility(View.INVISIBLE);
                 //Check error message.
@@ -144,7 +133,6 @@ public class LoginFragment extends Fragment {
 
     //Update LiveData<FirebaseUser> observable object.
     private void login(UserModel userModel) {
-        binding.progressBarLogin.setVisibility(View.VISIBLE);
         userViewModel.login(userModel);
     }
 }

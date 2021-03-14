@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.model;
+package com.example.nerdeyesem.ui.login;
 
 public class UserModel {
     private final String email;

@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 // We needed it because in some scenarios restaurants was updated more than once without updating location.
 // Possible Problem: https://medium.com/better-programming/how-to-fix-a-serious-problem-in-livedata-android-594a3f18e981
 // My Solution: https://github.com/NordicSemiconductor/Android-nRF-Blinky/blob/master/app/src/main/java/no/nordicsemi/android/blinky/viewmodels/SingleLiveEvent.java
+
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
     private static final String TAG = "SingleLiveEvent";

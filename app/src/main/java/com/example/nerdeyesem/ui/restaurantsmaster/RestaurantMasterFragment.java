@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.fragment;
+package com.example.nerdeyesem.ui.restaurantsmaster;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -24,29 +24,28 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.nerdeyesem.R;
-import com.example.nerdeyesem.adapters.RestaurantsRecyclerViewAdapter;
 import com.example.nerdeyesem.databinding.FragmentRestaurantMasterBinding;
-import com.example.nerdeyesem.model.LocationModel;
-import com.example.nerdeyesem.model.RestaurantsModel;
-import com.example.nerdeyesem.utils.GpsUtils;
-import com.example.nerdeyesem.utils.NewLocationChecker;
+import com.example.nerdeyesem.location.GpsUtils;
+import com.example.nerdeyesem.location.NewLocationChecker;
 import com.example.nerdeyesem.utils.Resource;
-import com.example.nerdeyesem.viewmodel.LocationViewModel;
-import com.example.nerdeyesem.viewmodel.RestaurantsViewModel;
-import com.example.nerdeyesem.viewmodel.UserViewModel;
+import com.example.nerdeyesem.location.LocationViewModel;
+import com.example.nerdeyesem.ui.login.UserViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class RestaurantMasterFragment extends Fragment implements RestaurantsRecyclerViewAdapter.OnRestaurantClickListener {
     private FragmentRestaurantMasterBinding binding;
     private UserViewModel userViewModel;
     private NavController navController;
 
     private LocationViewModel locationViewModel;
-    private LocationModel previousLocation = null;
+
     // Reference to the return value of registerForActivityResult(),
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
@@ -99,6 +98,7 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     }
 
     private void initUserLiveDataObserver() {
+        userViewModel.getUser().removeObservers(getViewLifecycleOwner());
         userViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUserResource -> {
             if (firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) {
@@ -121,22 +121,23 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     }
 
     private void initRestaurantsLiveDataObserver() {
-        if(!restaurantsViewModel.getRestaurants().hasActiveObservers()) {
-            restaurantsViewModel.getRestaurants().observe(getViewLifecycleOwner(),
-                    listResource -> {
-                        if (listResource.status == Resource.Status.SUCCESS) {
+        restaurantsViewModel.getRestaurants().removeObservers(getViewLifecycleOwner());
+        restaurantsViewModel.getRestaurants().observe(getViewLifecycleOwner(),
+                listResource -> {
+                    if (listResource.status == Resource.Status.SUCCESS) {
+                        setRestaurantRecyclerView(listResource.data);
+                    } else if (listResource.status == Resource.Status.LOADING) {
+                        binding.progressBarRecyclerViewStatus.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
+                        binding.textViewStatusInformation.setText(listResource.message);
+                    }
+                });
 
-                            setRestaurantRecyclerView(listResource.data);
-
-                        } else {
-                            binding.textViewStatusInformation.setText(listResource.message);
-                            binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
-                        }
-                    });
-        }
     }
 
     private void setRestaurantRecyclerView(RestaurantsModel restaurantsModel) {
+        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
         //binding.recyclerViewRestaurants.setHasFixedSize(true);
         RestaurantsRecyclerViewAdapter restaurantsRecyclerViewAdapter =
                 new RestaurantsRecyclerViewAdapter(requireContext(),
@@ -148,8 +149,6 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
         LayoutAnimationController layoutAnimationController = AnimationUtils
                 .loadLayoutAnimation(requireContext(), R.anim.recyclerview_layout_animation);
         binding.recyclerViewRestaurants.setLayoutAnimation(layoutAnimationController);
-
-        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
     }
 
     private void initLocationViewModel() {
@@ -192,39 +191,38 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     private void observeLocationUpdate() {
         // Check is there any active observers, if not create one.
         // There is a danger of memory leak by creating a new observer object here every time here.
-        if (!locationViewModel.getLocationLiveData().hasActiveObservers()) {
-            locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(),
-                    locationModel -> {
-                        if (locationModel != null) {
-                            binding.textViewStatusInformation.setVisibility(View.GONE);
+        locationViewModel.getLocationLiveData().removeObservers(getViewLifecycleOwner());
+        locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(),
+                locationModel -> {
+                    if (locationModel != null) {
+                        binding.textViewStatusInformation.setVisibility(View.GONE);
 
-                            if(NewLocationChecker.isNewLocationNeeded(requireContext(),
-                                    previousLocation ,locationModel)) {
-                                //Get restaurants.
-                                restaurantsUpdate(locationModel.getLatitude(),
-                                        locationModel.getLongitude());
-                                previousLocation = locationModel;
-                            } else {
-                                setRestaurantRecyclerView(Objects.requireNonNull(restaurantsViewModel
-                                        .getRestaurants().getValue()).data);
-                            }
-                        }
-                    });
-        }
-
-        if(!locationViewModel.getIsGPSEnable().hasActiveObservers()) {
-            locationViewModel.getIsGPSEnable().observe(getViewLifecycleOwner(),
-                    aBoolean -> {
-                        if (!aBoolean) {
-                            binding.textViewStatusInformation
-                                    .setText(R.string.location_gps_disabled_message);
-                            binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
+                        if(NewLocationChecker.isNewLocationNeeded(requireContext(),
+                                NewLocationChecker.previousLocation ,locationModel)) {
+                            //Get restaurants.
+                            restaurantsUpdate(locationModel.getLatitude(),
+                                    locationModel.getLongitude());
+                            NewLocationChecker.previousLocation = locationModel;
                         } else {
-                            binding.textViewStatusInformation
-                                    .setText(R.string.location_gps_enabled);
+                            setRestaurantRecyclerView(Objects.requireNonNull(restaurantsViewModel
+                                    .getRestaurants().getValue()).data);
                         }
-                    });
-        }
+                    }
+                });
+
+        locationViewModel.getIsGPSEnable().removeObservers(getViewLifecycleOwner());
+        locationViewModel.getIsGPSEnable().observe(getViewLifecycleOwner(),
+                aBoolean -> {
+                    if (!aBoolean) {
+                        binding.textViewStatusInformation
+                                .setText(R.string.location_gps_disabled_message);
+                        binding.progressBarRecyclerViewStatus.setVisibility(View.GONE);
+                    } else {
+                        binding.textViewStatusInformation
+                                .setText(R.string.location_gps_enabled);
+                    }
+                });
+
     }
 
     private void requestPermission() {

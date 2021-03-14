@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/masterRestaurantFragment"
-        android:name="com.example.nerdeyesem.fragment.RestaurantMasterFragment"
+        android:name="com.example.nerdeyesem.ui.restaurantsmaster.RestaurantMasterFragment"
         tools:layout="@layout/fragment_restaurant_master">
         <action
             android:id="@+id/action_masterRestaurantFragment_to_detailRestaurantFragment"
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailRestaurantFragment"
-        android:name="com.example.nerdeyesem.fragment.RestaurantDetailFragment"
+        android:name="com.example.nerdeyesem.ui.restaurantsdetail.RestaurantDetailFragment"
         tools:layout="@layout/fragment_restaurant_detail">
         <argument
             android:name="position"
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.nerdeyesem.fragment.LoginFragment"
+        android:name="com.example.nerdeyesem.ui.login.LoginFragment"
         android:label="Login Screen"
         tools:layout="@layout/fragment_login"></fragment>
 </navigation>

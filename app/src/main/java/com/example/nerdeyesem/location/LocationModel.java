@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.model;
+package com.example.nerdeyesem.location;
 
 public class LocationModel {
     private final Double longitude;
@@ -25,7 +25,7 @@ public class LocationModel {
         final double oneDegree = Math.PI / 180;
         double a = (this.longitude - locationModel.longitude)*oneDegree;
         double b = Math.cos((this.latitude + locationModel.latitude)/2);
-        a = a*b;
+        a *= b;
         double c = (this.latitude - locationModel.latitude)*oneDegree;
 
         return (int)Math.round(radiusOfEarth*Math.sqrt(a*a + c*c));

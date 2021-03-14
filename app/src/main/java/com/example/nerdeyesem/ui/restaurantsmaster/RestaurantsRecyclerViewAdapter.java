@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.adapters;
+package com.example.nerdeyesem.ui.restaurantsmaster;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.nerdeyesem.R;
 import com.example.nerdeyesem.databinding.RestaurantRecyclerviewItemBinding;
-import com.example.nerdeyesem.model.RestaurantsModel;
 
 import static android.content.ContentValues.TAG;
 

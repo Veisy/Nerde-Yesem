@@ -1,19 +1,25 @@
-package com.example.nerdeyesem.viewmodel;
+package com.example.nerdeyesem.location;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
-import com.example.nerdeyesem.livedata.LocationLiveData;
 import com.example.nerdeyesem.livedata.SingleLiveEvent;
 
-public class LocationViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import dagger.hilt.android.qualifiers.ApplicationContext;
+
+@HiltViewModel
+public class LocationViewModel extends ViewModel {
     private final LocationLiveData locationLiveData;
     private SingleLiveEvent<Boolean> isGPSEnable;
 
-    public LocationViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public LocationViewModel(Application application) {
         locationLiveData = new LocationLiveData(application);
     }
 

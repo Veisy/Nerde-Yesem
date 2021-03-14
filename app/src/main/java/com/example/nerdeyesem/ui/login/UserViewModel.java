@@ -1,18 +1,22 @@
-package com.example.nerdeyesem.viewmodel;
+package com.example.nerdeyesem.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.nerdeyesem.model.UserModel;
-import com.example.nerdeyesem.repository.FirebaseEmailAuthRepository;
 import com.example.nerdeyesem.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class UserViewModel extends ViewModel {
     private final FirebaseEmailAuthRepository firebaseEmailAuthRepository;
 
-    public UserViewModel() {
-        firebaseEmailAuthRepository = new FirebaseEmailAuthRepository();
+    @Inject
+    public UserViewModel(FirebaseEmailAuthRepository firebaseEmailAuthRepository) {
+        this.firebaseEmailAuthRepository = firebaseEmailAuthRepository;
     }
 
     public LiveData<Resource<FirebaseUser>> getUser() {

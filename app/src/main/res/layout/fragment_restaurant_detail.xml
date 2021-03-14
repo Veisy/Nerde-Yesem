@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_restaurant_fragment"
-    tools:context=".fragment.RestaurantDetailFragment">
+    tools:context=".ui.restaurantsdetail.RestaurantDetailFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"

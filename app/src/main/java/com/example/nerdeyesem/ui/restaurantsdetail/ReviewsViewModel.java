@@ -1,18 +1,22 @@
-package com.example.nerdeyesem.viewmodel;
+package com.example.nerdeyesem.ui.restaurantsdetail;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.nerdeyesem.model.ReviewsModel;
-import com.example.nerdeyesem.repository.ZomatoReviewsRepository;
 import com.example.nerdeyesem.utils.Resource;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class ReviewsViewModel extends ViewModel {
 
     private final ZomatoReviewsRepository zomatoReviewsRepository;
 
-    public ReviewsViewModel() {
-        zomatoReviewsRepository = new ZomatoReviewsRepository();
+    @Inject
+    public ReviewsViewModel(ZomatoReviewsRepository zomatoReviewsRepository) {
+        this.zomatoReviewsRepository = zomatoReviewsRepository;
     }
 
     public void findReviews(Integer resId) {

@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.model;
+package com.example.nerdeyesem.ui.restaurantsmaster;
 
 import com.google.gson.annotations.SerializedName;
 

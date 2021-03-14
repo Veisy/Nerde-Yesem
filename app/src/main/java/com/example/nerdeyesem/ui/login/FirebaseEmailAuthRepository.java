@@ -1,15 +1,18 @@
-package com.example.nerdeyesem.repository;
+package com.example.nerdeyesem.ui.login;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.nerdeyesem.livedata.SingleLiveEvent;
-import com.example.nerdeyesem.model.UserModel;
 import com.example.nerdeyesem.utils.Resource;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class FirebaseEmailAuthRepository {
     public static final String TOO_MANY_REQUEST = "TOO_MANY_REQUEST";
     public static final String INVALID_EMAIL = "INVALID_EMAIL";
@@ -26,13 +29,15 @@ public class FirebaseEmailAuthRepository {
     //More details and explanations available on class declaration.
     private final SingleLiveEvent<Resource<FirebaseUser>> userLiveData;
 
-    public FirebaseEmailAuthRepository() {
-        firebaseAuth = FirebaseAuth.getInstance();
+    @Inject
+    public FirebaseEmailAuthRepository(FirebaseAuth firebaseAuth) {
+        this.firebaseAuth = firebaseAuth;
         userLiveData = new SingleLiveEvent<>();
     }
 
     //Check if login successful. Get error message if not.
     public void login(UserModel userModel) {
+        userLiveData.postValue(Resource.loading(null));
         firebaseAuth.signInWithEmailAndPassword(userModel.getEmail(), userModel.getPassword())
                 .addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
@@ -68,8 +73,8 @@ public class FirebaseEmailAuthRepository {
     }
 
     public void logOut() {
-       FirebaseAuth.getInstance().signOut();
-       userLiveData.postValue(Resource.error(LOGGED_OUT,null));
+        firebaseAuth.signOut();
+        userLiveData.postValue(Resource.error(LOGGED_OUT,null));
     }
 
     public LiveData<Resource<FirebaseUser>> getUserLiveData() {

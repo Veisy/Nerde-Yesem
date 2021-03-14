@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_restaurant_fragment"
     android:visibility="visible"
-    tools:context=".fragment.RestaurantMasterFragment">
+    tools:context=".ui.restaurantsmaster.RestaurantMasterFragment">
 
     <TextView
         android:id="@+id/textView_statusInformation"
