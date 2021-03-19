@@ -1,4 +1,4 @@
-package com.example.nerdeyesem.location;
+package com.example.nerdeyesem.livedata;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.os.Looper;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 
-import com.example.nerdeyesem.livedata.SingleLiveEvent;
+import com.example.nerdeyesem.location.LocationModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;

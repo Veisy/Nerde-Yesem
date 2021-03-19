@@ -36,9 +36,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import dagger.hilt.android.AndroidEntryPoint;
-
-@AndroidEntryPoint
 public class RestaurantMasterFragment extends Fragment implements RestaurantsRecyclerViewAdapter.OnRestaurantClickListener {
     private FragmentRestaurantMasterBinding binding;
     private UserViewModel userViewModel;
@@ -64,8 +61,6 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
 
     private void setToolbar() {
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
-        //Hide toolbar for now. We will make it visible when user auth validated.
-        toolbar.setVisibility(View.INVISIBLE);
         toolbar.setTitle(getString(R.string.nearby_restaurants));
     }
 
@@ -100,16 +95,18 @@ public class RestaurantMasterFragment extends Fragment implements RestaurantsRec
     private void initUserLiveDataObserver() {
         userViewModel.getUser().removeObservers(getViewLifecycleOwner());
         userViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUserResource -> {
+            Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
             if (firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) {
                 //Make layout visible.
-                requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+                toolbar.setVisibility(View.VISIBLE);
                 binding.constraintLayoutFragmentRestaurantMaster.setVisibility(View.VISIBLE);
                 binding.progressBarRecyclerViewStatus.setVisibility(View.VISIBLE);
 
                 //Check location permission, and get location if permission granted.
                 getLocation();
             } else {
+                toolbar.setVisibility(View.GONE);
                 navController.navigate(R.id.loginFragment);
             }
         });

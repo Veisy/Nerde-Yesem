@@ -2,16 +2,14 @@ package com.example.nerdeyesem.location;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 
+import com.example.nerdeyesem.livedata.LocationLiveData;
 import com.example.nerdeyesem.livedata.SingleLiveEvent;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 
 @HiltViewModel
 public class LocationViewModel extends ViewModel {

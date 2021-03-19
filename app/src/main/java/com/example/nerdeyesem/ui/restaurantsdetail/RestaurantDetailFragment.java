@@ -30,9 +30,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import dagger.hilt.android.AndroidEntryPoint;
-
-@AndroidEntryPoint
 public class RestaurantDetailFragment extends Fragment {
     private FragmentRestaurantDetailBinding binding;
 
@@ -148,8 +145,10 @@ public class RestaurantDetailFragment extends Fragment {
     private void initUserLiveDataObserver() {
         userViewModel.getUser().removeObservers(getViewLifecycleOwner());
         userViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUserResource -> {
+            Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
             if ( !(firebaseUserResource.status == Resource.Status.SUCCESS
                     && firebaseUserResource.data != null) ) {
+                toolbar.setVisibility(View.GONE);
                 navController.navigate(R.id.loginFragment);
             }
         });

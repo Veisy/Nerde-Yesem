@@ -33,8 +33,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Hide toolbar of activity in this fragment.
-        requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
 
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         return binding.getRoot();
