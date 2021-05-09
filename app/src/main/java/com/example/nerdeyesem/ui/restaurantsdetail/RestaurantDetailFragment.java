@@ -132,7 +132,6 @@ public class RestaurantDetailFragment extends Fragment {
                 });
     }
 
-
     private void initUserViewModel() {
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
     }
