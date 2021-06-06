@@ -31,9 +31,6 @@
                 android:id="@+id/imageView_detail_restaurantImage"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/restaurant_image_height_large"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
                 android:contentDescription="@string/restaurant_image"
                 android:src="@drawable/ic_restaurant_default"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,8 +41,6 @@
                 android:id="@+id/view_detail_colorRatingBar"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/color_bar_height"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +142,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
                 android:text="@string/timings"
+                app:drawableStartCompat="@drawable/ic_access_time"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="@+id/textView_title_restaurantCuisines" />
 
@@ -181,7 +178,9 @@
                 style="@style/restaurant_detail_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:text="@string/address"
+                app:drawableStartCompat="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="@+id/textView_title_restaurantTimings"
                 app:layout_constraintTop_toBottomOf="@+id/separator_line4" />
 
